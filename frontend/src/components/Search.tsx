@@ -1,6 +1,11 @@
+import { useContext } from "react";
+import { AppContext } from "../contexts/appContext";
+import { AppContextType } from "../@types/context";
+
 const Search = () => {
+    const { books } = useContext(AppContext) as AppContextType;
     return (
-        <div>Search</div>
+        <div>Search {books?.length}</div>
     )
 }
 

@@ -1,7 +1,6 @@
-import React, { useEffect } from 'react';
+import { useEffect } from 'react';
 import { useAuth0 } from "@auth0/auth0-react";
-import { Link, useNavigate } from 'react-router-dom';
-import logo from './logo.svg';
+import { useNavigate } from 'react-router-dom';
 import './App.css';
 
 function App() {
@@ -15,7 +14,7 @@ function App() {
    } else if (!isLoading && isAuthenticated) {
     navigate("/search")
    }
-  }, [isLoading, isAuthenticated])
+  }, [isLoading, isAuthenticated, navigate])
 
   return (
     <div className="App">

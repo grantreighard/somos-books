@@ -2,6 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import { Auth0Provider } from '@auth0/auth0-react';
 import { BrowserRouter, Route, Routes } from "react-router-dom";
+import AppContextProvider from './contexts/appContext';
 import App from './App';
 import Login from './components/Login';
 import Search from './components/Search';
@@ -16,6 +17,7 @@ const root = ReactDOM.createRoot(
 
 root.render(
   <React.StrictMode>
+    
     <Auth0Provider
     domain="https://ghr-somos.us.auth0.com"
     clientId="nJtJ1oWvbQxF38iNKPEVP46qYfqooowR"
@@ -23,14 +25,16 @@ root.render(
       redirect_uri: 'http://localhost:3000'
     }}
   >
-    <BrowserRouter>
-      <Routes>
-        <Route path='/' element={<App/>}/>
-        <Route path='/login' element={<Login />} />
-        <Route path='/search' element={<Search />} />
-        <Route path='/favorites' element={<Favorites />} />
-      </Routes>
-    </BrowserRouter>
+    <AppContextProvider>
+      <BrowserRouter>
+        <Routes>
+          <Route path='/' element={<App/>}/>
+          <Route path='/login' element={<Login />} />
+          <Route path='/search' element={<Search />} />
+          <Route path='/favorites' element={<Favorites />} />
+        </Routes>
+      </BrowserRouter>
+     </AppContextProvider>
     </Auth0Provider>
   </React.StrictMode>
 );
