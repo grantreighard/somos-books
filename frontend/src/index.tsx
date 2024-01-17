@@ -3,11 +3,12 @@ import ReactDOM from 'react-dom/client';
 import { Auth0Provider } from '@auth0/auth0-react';
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import App from './App';
-import LoginButton from './components/Login';
+import Login from './components/Login';
+import Search from './components/Search';
+import Favorites from './components/Favorites';
 import reportWebVitals from './reportWebVitals';
 
 import './index.css';
-import AuthCallback from './components/AuthCallback';
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
@@ -19,14 +20,15 @@ root.render(
     domain="https://ghr-somos.us.auth0.com"
     clientId="nJtJ1oWvbQxF38iNKPEVP46qYfqooowR"
     authorizationParams={{
-      redirect_uri: 'http://localhost:3000/callback'
+      redirect_uri: 'http://localhost:3000'
     }}
   >
     <BrowserRouter>
       <Routes>
         <Route path='/' element={<App/>}/>
-        <Route path='/login' element={<LoginButton />} />
-        <Route path='/callback' element={<AuthCallback />} />
+        <Route path='/login' element={<Login />} />
+        <Route path='/search' element={<Search />} />
+        <Route path='/favorites' element={<Favorites />} />
       </Routes>
     </BrowserRouter>
     </Auth0Provider>
