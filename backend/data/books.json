@@ -4912,9 +4912,7 @@
     "authors": ["Emmit A. Scott", "Jr."],
     "categories": []
 }, {
-    "_id": {
-        "$oid": "53c2ae8528d75d572c06ad9d"
-    },
+    "_id": 797,
     "title": "XSLT Quickly",
     "isbn": "1930110111",
     "pageCount": 320,
@@ -4927,9 +4925,7 @@
     "authors": [],
     "categories": []
 }, {
-    "_id": {
-        "$oid": "53c2ae8528d75d572c06ad9e"
-    },
+    "_id": 798,
     "title": "Windows Forms Programming with C#",
     "isbn": "1930110286",
     "pageCount": 752,
@@ -4942,9 +4938,7 @@
     "authors": [],
     "categories": []
 }, {
-    "_id": {
-        "$oid": "53c2ae8528d75d572c06ad9f"
-    },
+    "_id": 799,
     "title": "Windows Forms in Action",
     "isbn": "1932394656",
     "pageCount": 950,
@@ -4957,9 +4951,7 @@
     "authors": [],
     "categories": []
 }, {
-    "_id": {
-        "$oid": "53c2ae8528d75d572c06ada0"
-    },
+    "_id": 800,
     "title": "Event Processing in Action",
     "isbn": "1935182218",
     "pageCount": 384,
@@ -4973,9 +4965,7 @@
     "authors": [],
     "categories": []
 }, {
-    "_id": {
-        "$oid": "53c2ae8528d75d572c06ada1"
-    },
+    "_id": 801,
     "title": "The Well-Grounded Java Developer",
     "isbn": "1617290068",
     "pageCount": 0,
@@ -4989,9 +4979,7 @@
     "authors": [],
     "categories": []
 }, {
-    "_id": {
-        "$oid": "53c2ae8528d75d572c06ada2"
-    },
+    "_id": 802,
     "title": "Objective-C Fundamentals",
     "isbn": "1935182536",
     "pageCount": 355,
@@ -5005,9 +4993,7 @@
     "authors": [],
     "categories": []
 }, {
-    "_id": {
-        "$oid": "53c2ae8528d75d572c06ada3"
-    },
+    "_id": 803,
     "title": "ADO.NET Programming",
     "isbn": "1930110294",
     "pageCount": 592,
@@ -5021,9 +5007,7 @@
     "authors": [],
     "categories": []
 }, {
-    "_id": {
-        "$oid": "53c2ae8528d75d572c06ada4"
-    },
+    "_id": 804,
     "title": "WPF in Action with Visual Studio 2008",
     "isbn": "1933988223",
     "pageCount": 520,
@@ -5036,9 +5020,7 @@
     "authors": [],
     "categories": []
 }, {
-    "_id": {
-        "$oid": "53c2ae8528d75d572c06ada5"
-    },
+    "_id": 805,
     "title": "Location-Aware Applications",
     "isbn": "1935182331",
     "pageCount": 320,
@@ -5050,9 +5032,7 @@
     "authors": [],
     "categories": []
 }, {
-    "_id": {
-        "$oid": "53c2ae8528d75d572c06ada6"
-    },
+    "_id": 806,
     "title": "Web Development with JavaServer Pages, Second Edition",
     "isbn": "193011012X",
     "pageCount": 800,
@@ -5065,9 +5045,7 @@
     "authors": [],
     "categories": []
 }, {
-    "_id": {
-        "$oid": "53c2ae8528d75d572c06ada7"
-    },
+    "_id": 807,
     "title": "IntelliJ IDEA in Action",
     "isbn": "1932394443",
     "pageCount": 450,
@@ -5081,9 +5059,7 @@
     "authors": [],
     "categories": []
 }, {
-    "_id": {
-        "$oid": "53c2ae8528d75d572c06ada8"
-    },
+    "_id": 808,
     "title": "Spring Integration in Action",
     "isbn": "1935182439",
     "pageCount": 400,
@@ -5097,9 +5073,7 @@
     "authors": [],
     "categories": []
 }, {
-    "_id": {
-        "$oid": "53c2ae8528d75d572c06ada9"
-    },
+    "_id": 809,
     "title": "The Joy of Clojure",
     "isbn": "1935182641",
     "pageCount": 360,
@@ -5113,9 +5087,7 @@
     "authors": [],
     "categories": []
 }, {
-    "_id": {
-        "$oid": "53c2ae8528d75d572c06adaa"
-    },
+    "_id": 810,
     "title": "Dynamic WAP Application Development",
     "isbn": "1930110081",
     "pageCount": 888,
@@ -5128,9 +5100,7 @@
     "authors": [],
     "categories": []
 }, {
-    "_id": {
-        "$oid": "53c2ae8528d75d572c06adab"
-    },
+    "_id": 811,
     "title": "IronPython in Action",
     "isbn": "1933988339",
     "pageCount": 496,
@@ -5143,9 +5113,7 @@
     "authors": [],
     "categories": []
 }, {
-    "_id": {
-        "$oid": "53c2ae8528d75d572c06adac"
-    },
+    "_id": 812,
     "title": "Art of Java Web Development",
     "isbn": "1932394060",
     "pageCount": 624,
@@ -5158,9 +5126,7 @@
     "authors": [],
     "categories": []
 }, {
-    "_id": {
-        "$oid": "53c2ae8528d75d572c06adad"
-    },
+    "_id": 813,
     "title": "Java Reflection in Action",
     "isbn": "1932394184",
     "pageCount": 300,
@@ -5173,9 +5139,7 @@
     "authors": [],
     "categories": []
 }, {
-    "_id": {
-        "$oid": "53c2ae8528d75d572c06adae"
-    },
+    "_id": 814,
     "title": "Programming Windows Server 2003",
     "isbn": "1930110987",
     "pageCount": 328,
@@ -5188,9 +5152,7 @@
     "authors": [],
     "categories": []
 }, {
-    "_id": {
-        "$oid": "53c2ae8528d75d572c06adaf"
-    },
+    "_id": 815,
     "title": "Struts Recipes",
     "isbn": "1932394249",
     "pageCount": 520,
@@ -5203,9 +5165,7 @@
     "authors": [],
     "categories": []
 }, {
-    "_id": {
-        "$oid": "53c2ae8528d75d572c06adb0"
-    },
+    "_id": 816,
     "title": "Hello! iOS Development",
     "isbn": "1935182986",
     "pageCount": 0,
@@ -5217,9 +5177,7 @@
     "authors": [],
     "categories": []
 }, {
-    "_id": {
-        "$oid": "53c2ae8528d75d572c06adb1"
-    },
+    "_id": 817,
     "title": "Jess in Action",
     "isbn": "1930110898",
     "pageCount": 480,
@@ -5233,9 +5191,7 @@
     "authors": [],
     "categories": []
 }, {
-    "_id": {
-        "$oid": "53c2ae8528d75d572c06adb2"
-    },
+    "_id": 818,
     "title": "Remote LAN Access",
     "isbn": "134944518",
     "pageCount": 300,
@@ -5249,9 +5205,7 @@
     "authors": [],
     "categories": []
 }, {
-    "_id": {
-        "$oid": "53c2ae8528d75d572c06adb3"
-    },
+    "_id": 819,
     "title": "J2EE and XML Development",
     "isbn": "1930110308",
     "pageCount": 304,
@@ -5264,9 +5218,7 @@
     "authors": [],
     "categories": []
 }, {
-    "_id": {
-        "$oid": "53c2ae8528d75d572c06adb4"
-    },
+    "_id": 820,
     "title": "Eclipse in Action",
     "isbn": "1930110960",
     "pageCount": 416,
@@ -5280,9 +5232,7 @@
     "authors": [],
     "categories": []
 }, {
-    "_id": {
-        "$oid": "53c2ae8528d75d572c06adb5"
-    },
+    "_id": 821,
     "title": "ASP.NET AJAX in Action",
     "isbn": "1933988142",
     "pageCount": 570,
@@ -5295,9 +5245,7 @@
     "authors": [],
     "categories": []
 }, {
-    "_id": {
-        "$oid": "53c2ae8528d75d572c06adb6"
-    },
+    "_id": 822,
     "title": "Ext JS in Action",
     "isbn": "1935182110",
     "pageCount": 425,
@@ -5311,9 +5259,7 @@
     "authors": [],
     "categories": []
 }, {
-    "_id": {
-        "$oid": "53c2ae8528d75d572c06adb7"
-    },
+    "_id": 823,
     "title": "Sencha Touch in Action",
     "isbn": "1617290378",
     "pageCount": 375,
@@ -5327,9 +5273,7 @@
     "authors": [],
     "categories": []
 }, {
-    "_id": {
-        "$oid": "53c2ae8528d75d572c06adb8"
-    },
+    "_id": 824,
     "title": "DSLs in Action",
     "isbn": "1935182455",
     "pageCount": 376,
@@ -5343,9 +5287,7 @@
     "authors": [],
     "categories": []
 }, {
-    "_id": {
-        "$oid": "53c2ae8528d75d572c06adb9"
-    },
+    "_id": 825,
     "title": "Database Programming for Handheld Devices",
     "isbn": "1884777856",
     "pageCount": 0,
@@ -5357,9 +5299,7 @@
     "authors": [],
     "categories": []
 }, {
-    "_id": {
-        "$oid": "53c2ae8528d75d572c06adba"
-    },
+    "_id": 826,
     "title": "Jakarta Commons Online Bookshelf",
     "isbn": "1932394524",
     "pageCount": 402,
@@ -5372,9 +5312,7 @@
     "authors": [],
     "categories": []
 }, {
-    "_id": {
-        "$oid": "53c2ae8528d75d572c06adbb"
-    },
+    "_id": 827,
     "title": "Browsing with HttpClient",
     "isbn": "1932394524a-e",
     "pageCount": 0,
@@ -5387,9 +5325,7 @@
     "authors": [],
     "categories": []
 }, {
-    "_id": {
-        "$oid": "53c2ae8528d75d572c06adbc"
-    },
+    "_id": 828,
     "title": "Codec: Encoders and Decoders",
     "isbn": "1932394524j-e",
     "pageCount": 0,
