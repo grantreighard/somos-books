@@ -5,7 +5,7 @@ import { AppContextType } from "../@types/context";
 const ThemeSwitcher = () => {
   const { theme, toggleTheme } = useContext(AppContext) as AppContextType;
 
-  return <div className="absolute top-[10px] right-[10px]">
+  return <div className="absolute top-[10px] right-[20px]">
     <button onClick={toggleTheme}>{theme === "dark" ? "🌞" : "🌑"}</button>
   </div>;
 };
