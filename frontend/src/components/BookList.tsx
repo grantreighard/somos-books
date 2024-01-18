@@ -11,33 +11,30 @@ const BookList: React.FC<IBookListProps> = ({ path }) => {
   const isSearch = path === "/search"
   const { books } = useContext(AppContext) as AppContextType;
   const [filteredBooks, setFilteredBooks] = useState(books);
-  
-  useEffect(() => {
-    const debounceTimeout = setTimeout(() => {
-      query && axios.get(`http://localhost:4000/search-books/${query}`)
-      .then(res => {
-        setFilteredBooks(res.data)
-        const params = encodeURI(`q=${query}`)
-        setSearchParams(params);
-      })
-      .catch(err => {
-        console.error(err);
-      })
-    }, 1000)
+
+  const submitSearch = () => {
+    query && axios.get(`http://localhost:4000/search-books/${query}`)
+    .then(res => {
+      setFilteredBooks(res.data)
+      const params = encodeURI(`q=${query}`)
+      setSearchParams(params);
+    })
+    .catch(err => {
+      console.error(err);
+    })
 
     if (!query) {
       setFilteredBooks(books)
       setSearchParams("")
     }
-
-    return () => clearTimeout(debounceTimeout)
-  }, [query])
+  }
 
   return (
     <div>
       { isSearch ? <>
         <p>Search through our library of {books.length} books!</p>
         <input placeholder="Search by title or author" value={query} onChange={e => setQuery(e.target.value)} />
+        <button onClick={submitSearch}>Search</button>
         <p>{filteredBooks.length} results found</p>
         <div className="flex flex-wrap">
           {filteredBooks.map((book: IBook) => {
