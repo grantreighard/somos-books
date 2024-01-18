@@ -21,6 +21,9 @@ const ContextProvider = ({ children }: PropsWithChildren) => {
   const [query, setQuery] = useState(
     `${searchParams}` ? decodeURI(`${searchParams}`.split("q=")[1]) : ""
   );
+  const [favoritesList, setFavoritesList] = useState<number[]>(
+    JSON.parse(localStorage.getItem("somos-book-favorites") || "[]")
+  );
 
   useEffect(() => {
     if (!searchedBooks.length) {
@@ -45,7 +48,7 @@ const ContextProvider = ({ children }: PropsWithChildren) => {
       if (!query) {
         setSearchedBooks(books);
       }
-    }, 500);
+    }, 100);
 
     return () => clearTimeout(debounceTimeout);
   }, [query]);
@@ -79,6 +82,24 @@ const ContextProvider = ({ children }: PropsWithChildren) => {
     }
   }, [isAuthenticated]);
 
+  const toggleFavoriteById = (id: number) => {
+    const existingFavorites = favoritesList.slice();
+    let editedFavorites = [];
+
+    if (existingFavorites.includes(id)) {
+      editedFavorites = existingFavorites.filter((fav) => fav !== id);
+    } else {
+      editedFavorites = [...existingFavorites];
+      editedFavorites.push(id);
+    }
+
+    setFavoritesList(editedFavorites);
+    localStorage.setItem(
+      "somos-book-favorites",
+      JSON.stringify(editedFavorites)
+    );
+  };
+
   return (
     <AppContext.Provider
       value={{
@@ -87,11 +108,13 @@ const ContextProvider = ({ children }: PropsWithChildren) => {
         filteredBooks,
         searchedBooks,
         searchParams,
+        favoritesList,
         fetchBooks,
         setFilteredBooks,
         setSearchedBooks,
         setQuery,
         submitSearch,
+        toggleFavoriteById,
       }}
     >
       {children}

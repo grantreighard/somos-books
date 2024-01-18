@@ -18,9 +18,11 @@ export type AppContextType = {
   books: IBook[];
   filteredBooks: IBook[];
   searchedBooks: IBook[];
+  favoritesList: number[];
   setQuery: (query) => void;
   submitSearch: () => void;
   fetchBooks: () => void;
   setFilteredBooks: (books) => void;
   setSearchedBooks: (books) => void;
+  toggleFavoriteById: (number) => void;
 };
