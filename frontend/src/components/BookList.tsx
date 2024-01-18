@@ -1,12 +1,14 @@
 import { useContext } from "react";
+import { useLocation } from 'react-router-dom';
 import { AppContext } from "../contexts/appContext";
 import { AppContextType } from "../@types/context";
-import { IBookListProps } from "../@types/bookList";
 import BookMap from "./BookMap";
 
-const BookList: React.FC<IBookListProps> = ({ path }) => {
-  const isSearch = path === "/search"
-  const isFavorites = path === "/favorites"
+const BookList = () => {
+  const location = useLocation();
+
+  const isSearch = location.pathname === "/search"
+  const isFavorites = location.pathname === "/favorites"
   const { query, books, filteredBooks, favoriteBooks, searchParams, setQuery, submitSearch } = useContext(AppContext) as AppContextType;
 
   const onKeyDown = (e: React.KeyboardEvent<HTMLDivElement>) => {

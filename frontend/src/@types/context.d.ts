@@ -20,10 +20,12 @@ export type AppContextType = {
   searchedBooks: IBook[];
   favoriteBooks: IBook[];
   favoritesList: number[];
+  theme: string;
   setQuery: (query) => void;
   submitSearch: () => void;
   fetchBooks: () => void;
   setFilteredBooks: (books) => void;
   setSearchedBooks: (books) => void;
   toggleFavoriteById: (number) => void;
+  toggleTheme: () => void;
 };

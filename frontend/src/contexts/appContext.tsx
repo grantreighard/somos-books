@@ -12,8 +12,21 @@ import { AppContextType, IBook } from "../@types/context";
 export const AppContext = createContext<AppContextType | null>(null);
 
 const ContextProvider = ({ children }: PropsWithChildren) => {
+  const localTheme = localStorage.getItem("somos-books-theme");
+
+  let prefersDarkMode = false;
+  if (
+    window.matchMedia &&
+    window.matchMedia("(prefers-color-scheme: dark)").matches
+  ) {
+    prefersDarkMode = true;
+  }
+
   const { isAuthenticated } = useAuth0();
 
+  const [theme, setTheme] = useState(
+    localTheme || (prefersDarkMode ? "dark" : "light") || "dark"
+  );
   const [books, setBooks] = useState<IBook[]>([]);
   const [filteredBooks, setFilteredBooks] = useState<IBook[]>(books);
   const [searchedBooks, setSearchedBooks] = useState<IBook[]>([]);
@@ -25,6 +38,14 @@ const ContextProvider = ({ children }: PropsWithChildren) => {
   const [favoritesList, setFavoritesList] = useState<number[]>(
     JSON.parse(localStorage.getItem("somos-book-favorites") || "[]")
   );
+
+  useEffect(() => {
+    localStorage.setItem("somos-books-theme", theme);
+  }, [theme]);
+
+  const toggleTheme = () => {
+    setTheme(theme === "light" ? "dark" : "light");
+  }
 
   useEffect(() => {
     if (!searchedBooks.length) {
@@ -116,12 +137,14 @@ const ContextProvider = ({ children }: PropsWithChildren) => {
         searchParams,
         favoritesList,
         favoriteBooks,
+        theme,
         fetchBooks,
         setFilteredBooks,
         setSearchedBooks,
         setQuery,
         submitSearch,
         toggleFavoriteById,
+        toggleTheme
       }}
     >
       {children}

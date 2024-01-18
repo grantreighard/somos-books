@@ -1,12 +1,13 @@
 import { Link } from "react-router-dom";
 import BookList from "./BookList";
+import Header from "./Header";
 
 const Favorites = () => {
   return (
     <div>
+      <Header />
       <h1 className="text-3xl">Favorites</h1>
-      <Link to="/search">Search</Link>
-      <BookList path="/favorites" />
+      <BookList />
     </div>
   );
 };
