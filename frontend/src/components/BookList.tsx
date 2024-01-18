@@ -7,7 +7,7 @@ import BookMap from "./BookMap";
 const BookList: React.FC<IBookListProps> = ({ path }) => {
   const isSearch = path === "/search"
   const isFavorites = path === "/favorites"
-  const { query, books, filteredBooks, searchParams, favoritesList, setQuery, submitSearch } = useContext(AppContext) as AppContextType;
+  const { query, books, filteredBooks, favoriteBooks, searchParams, setQuery, submitSearch } = useContext(AppContext) as AppContextType;
 
   const onKeyDown = (e: React.KeyboardEvent<HTMLDivElement>) => {
     if (e.key === 'Enter') {
@@ -26,7 +26,8 @@ const BookList: React.FC<IBookListProps> = ({ path }) => {
       </>}
       
       { isFavorites && <>
-        <BookMap books={books.filter(book => favoritesList.includes(book?._id))}/>
+        <p>{favoriteBooks.length} favorites</p>
+        <BookMap books={favoriteBooks} />
       </>}
     </div>
   );
