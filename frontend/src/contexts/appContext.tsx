@@ -33,7 +33,7 @@ const ContextProvider = ({ children }: PropsWithChildren) => {
   const [favoriteBooks, setFavoriteBooks] = useState<IBook[]>([]);
   const [searchParams, setSearchParams] = useSearchParams();
   const [query, setQuery] = useState(
-    `${searchParams}` ? decodeURI(`${searchParams}`.split("q=")[1]) : ""
+    `${searchParams}` ? `${searchParams}`.split("q=")[1].replace("+", " ") : ""
   );
   const [favoritesList, setFavoritesList] = useState<number[]>(
     JSON.parse(localStorage.getItem("somos-book-favorites") || "[]")
@@ -59,7 +59,7 @@ const ContextProvider = ({ children }: PropsWithChildren) => {
     const debounceTimeout = setTimeout(() => {
       query &&
         axios
-          .get(`http://localhost:4000/search-books/${query}`)
+          .get(`http://localhost:4000/search-books/${encodeURI(query)}`)
           .then((res) => {
             setSearchedBooks(res.data);
           })

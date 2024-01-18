@@ -19,10 +19,12 @@ app.get("/books", (req, res) => {
 
 app.get("/search-books/:query", (req, res) => {
   const { query } = req.params;
+  const decodedQuery = query.replace("+", "");
+
   const filteredBooks = booksJson.filter((book) => {
     return (
-      book.title.toLowerCase().includes(query.toLowerCase()) ||
-      book.authors.join(" ").toLowerCase().includes(query.toLowerCase())
+      book.title.toLowerCase().includes(decodedQuery.toLowerCase()) ||
+      book.authors.join(" ").toLowerCase().includes(decodedQuery.toLowerCase())
     );
   });
 
