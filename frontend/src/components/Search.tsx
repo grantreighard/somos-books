@@ -1,12 +1,12 @@
-import { useContext } from "react";
-import { AppContext } from "../contexts/appContext";
-import { AppContextType } from "../@types/context";
+import BookList from "./BookList";
 
 const Search = () => {
-    const { books } = useContext(AppContext) as AppContextType;
-    return (
-        <div>Search {books?.length}</div>
-    )
-}
+  return (
+    <div>
+      Search
+      <BookList />
+    </div>
+  );
+};
 
 export default Search;

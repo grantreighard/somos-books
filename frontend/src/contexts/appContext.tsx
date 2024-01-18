@@ -1,5 +1,5 @@
 import React, { useEffect, createContext, PropsWithChildren } from "react";
-import axios from 'axios';
+import axios from "axios";
 import { useAuth0 } from "@auth0/auth0-react";
 import { AppContextType, IBook } from "../@types/context";
 
@@ -11,23 +11,26 @@ const ContextProvider = ({ children }: PropsWithChildren) => {
   const [books, setBooks] = React.useState<IBook[]>([]);
 
   const fetchBooks = () => {
-    axios.get('http://localhost:4000/books')
-      .then(res => {
+    axios
+      .get("http://localhost:4000/books")
+      .then((res) => {
         setBooks(res.data);
       })
-      .catch(err => {
+      .catch((err) => {
         console.error(err);
-      })
-  }
+      });
+  };
 
   useEffect(() => {
     if (isAuthenticated) {
       fetchBooks();
     }
-  }, [isAuthenticated])
+  }, [isAuthenticated]);
 
   return (
-    <AppContext.Provider value={{ books, fetchBooks }}>{children}</AppContext.Provider>
+    <AppContext.Provider value={{ books, fetchBooks }}>
+      {children}
+    </AppContext.Provider>
   );
 };
 

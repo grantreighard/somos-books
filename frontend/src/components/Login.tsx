@@ -6,8 +6,8 @@ const LoginButton = () => {
 
   return (
     <div>
-        <h1>Please log in to be able to use the Book Finder</h1>
-        <button onClick={() => loginWithRedirect()}>Log In</button>
+      <h1>Please log in to be able to use the Book Finder</h1>
+      <button onClick={() => loginWithRedirect()}>Log In</button>
     </div>
   );
 };
