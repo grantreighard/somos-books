@@ -7,26 +7,48 @@ import axios from 'axios';
 
 const BookList: React.FC<IBookListProps> = ({ path }) => {
   const [searchParams, setSearchParams] = useSearchParams();
-  const [query, setQuery] = useState(`${searchParams}` && decodeURI(`${searchParams}`.split("q=")[1]));
+  const [query, setQuery] = useState(`${searchParams}` ? decodeURI(`${searchParams}`.split("q=")[1]) : "");
   const isSearch = path === "/search"
   const { books } = useContext(AppContext) as AppContextType;
-  const [filteredBooks, setFilteredBooks] = useState(books);
+  const [filteredBooks, setFilteredBooks] = useState<IBook []>(books);
+  const [searchedBooks, setSearchedBooks] = useState<IBook []>([]);
+
+  useEffect(() => {
+    if (!searchedBooks.length) {
+      setFilteredBooks(books);
+    } else {
+      setFilteredBooks(searchedBooks);
+    }
+  }, [books])
+
+  useEffect(() => {
+    const debounceTimeout = setTimeout(() => {
+      query && axios.get(`http://localhost:4000/search-books/${query}`)
+      .then(res => {
+        setSearchedBooks(res.data)
+      })
+      .catch(err => {
+        console.error(err);
+      })
+
+      if (!query) {
+        setSearchedBooks(books)
+      }
+    }, 500)
+
+    return () => clearTimeout(debounceTimeout)
+  }, [query])
 
   const submitSearch = () => {
-    query && axios.get(`http://localhost:4000/search-books/${query}`)
-    .then(res => {
-      setFilteredBooks(res.data)
+    if (query) {
       const params = encodeURI(`q=${query}`)
       setSearchParams(params);
-    })
-    .catch(err => {
-      console.error(err);
-    })
-
-    if (!query) {
-      setFilteredBooks(books)
+    } else {
       setSearchParams("")
+      setSearchedBooks(books)
     }
+
+    setFilteredBooks(searchedBooks);
   }
 
   return (
@@ -34,7 +56,7 @@ const BookList: React.FC<IBookListProps> = ({ path }) => {
       { isSearch ? <>
         <p>Search through our library of {books.length} books!</p>
         <input placeholder="Search by title or author" value={query} onChange={e => setQuery(e.target.value)} />
-        <button onClick={submitSearch}>Search</button>
+        <button onClick={submitSearch} disabled={!query && !`${searchParams}`}>Search</button>
         <p>{filteredBooks.length} results found</p>
         <div className="flex flex-wrap">
           {filteredBooks.map((book: IBook) => {
