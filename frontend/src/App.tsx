@@ -5,7 +5,6 @@ import "./App.css";
 
 function App() {
   const navigate = useNavigate();
-
   const { user, isAuthenticated, isLoading, logout } = useAuth0();
 
   useEffect(() => {
@@ -17,18 +16,7 @@ function App() {
   }, [isLoading, isAuthenticated, navigate]);
 
   return (
-    <div className="App">
-      {!isLoading && isAuthenticated ? <p>Welcome, {user?.name}</p> : null}
-      {!isLoading && isAuthenticated ? (
-        <button
-          onClick={() =>
-            logout({ logoutParams: { returnTo: window.location.origin } })
-          }
-        >
-          Log Out
-        </button>
-      ) : null}
-    </div>
+    <></>
   );
 }
 
