@@ -24,16 +24,16 @@ root.render(
         redirect_uri: "http://localhost:3000",
       }}
     >
-      <AppContextProvider>
-        <BrowserRouter>
+      <BrowserRouter>
+        <AppContextProvider>
           <Routes>
             <Route path="/" element={<App />} />
             <Route path="/login" element={<Login />} />
             <Route path="/search" element={<Search />} />
             <Route path="/favorites" element={<Favorites />} />
           </Routes>
-        </BrowserRouter>
-      </AppContextProvider>
+        </AppContextProvider>
+      </BrowserRouter>
     </Auth0Provider>
   </React.StrictMode>
 );
