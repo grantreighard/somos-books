@@ -17,6 +17,18 @@ app.get("/books", (req, res) => {
   res.status(200).send(booksJson);
 });
 
+app.get("/search-books/:query", (req, res) => {
+  const { query } = req.params;
+  const filteredBooks = booksJson.filter((book) => {
+    return (
+      book.title.toLowerCase().includes(query.toLowerCase()) ||
+      book.authors.join(" ").toLowerCase().includes(query.toLowerCase())
+    );
+  });
+
+  res.status(200).send(filteredBooks);
+});
+
 app.listen(port, () => {
   console.log(`Server listening on http://localhost:${port}`);
 });

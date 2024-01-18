@@ -4,7 +4,7 @@ const Search = () => {
   return (
     <div>
       Search
-      <BookList />
+      <BookList path="/search" />
     </div>
   );
 };
