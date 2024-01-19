@@ -28,3 +28,4 @@ If you'd prefer to just review the code and view a live version, you can do so [
 - An .env file is required for both the front end and back end.
 - Required values for frontend .env file: REACT_APP_SERVER_BASE_URL
 - Required values for backend .env file: DB_URL, JSON_WEB_TOKEN_SECRET, JWT_ID
+- Book data used in Node is from [GitHub](https://github.com/dudeonthehorse/datasets/blob/master/amazon.books.json) and has been cleaned up.
