@@ -1,6 +1,10 @@
 import express from "express";
 import cors from "cors";
 import { MongoClient } from "mongodb";
+import dotenv from "dotenv";
+import bookRoutes from "./routes/books";
+
+dotenv.config();
 
 const app = express();
 
@@ -15,7 +19,7 @@ const port = process.env.PORT ?? 4000; // add PORT from process.env for use on H
 
 const connectToDatabase = async () => {
   const url = process.env.DB_URL || "";
-  const dbName = "mostcard";
+  const dbName = "somos";
   const client = new MongoClient(url);
 
   try {
@@ -24,8 +28,7 @@ const connectToDatabase = async () => {
     await db.command({ ping: 1 });
     console.log("Connected successfully to database.");
 
-    require("./routes/users")(app, db, "/api/users");
-    require("./routes/books")(app, db, "/api/books");
+    bookRoutes(app, db, "/api/books");
   } catch (err) {
     console.error(err);
   }
