@@ -18,7 +18,7 @@ const BookList = () => {
   }
 
   return (
-    <div className="h-screen dark:text-white dark:bg-black">
+    <div className="min-h-screen h-[100%] dark:text-white dark:bg-black">
       { isSearch && <>
         <p>Search through our library of {books.length} books!</p>
         <input placeholder="Search by title or author" value={query} onChange={e => {

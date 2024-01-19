@@ -33,7 +33,7 @@ const ContextProvider = ({ children }: PropsWithChildren) => {
   const [favoriteBooks, setFavoriteBooks] = useState<IBook[]>([]);
   const [searchParams, setSearchParams] = useSearchParams();
   const [query, setQuery] = useState(
-    `${searchParams}` ? `${searchParams}`.split("q=")[1].replace("+", " ") : ""
+    `${searchParams}` ? `${searchParams}`.split("q=")[1]?.replace("+", " ") : ""
   );
   const [changedQuery, setChangedQuery] = useState(false);
   const [clickedSubmit, setClickedSubmit] = useState(false);
