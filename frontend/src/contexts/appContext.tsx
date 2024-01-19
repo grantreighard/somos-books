@@ -60,7 +60,7 @@ const ContextProvider = ({ children }: PropsWithChildren) => {
         navigate("/login")
         setIsLoading(true)
       })
-  }, [])
+  }, [navigate])
 
   const toggleTheme = () => {
     setTheme(theme === "light" ? "dark" : "light");
@@ -87,7 +87,7 @@ const ContextProvider = ({ children }: PropsWithChildren) => {
       setFilteredBooks(searchedBooks);
       setClickedSubmit(false);
     }
-  }, [books, searchedBooks, clickedSubmit, query, changedQuery]);
+  }, [books, searchedBooks, clickedSubmit, query, changedQuery, setSearchParams]);
 
   useEffect(() => {
     const debounceTimeout = setTimeout(() => {
