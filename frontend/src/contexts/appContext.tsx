@@ -1,4 +1,4 @@
-import { useEffect, useState, createContext, PropsWithChildren } from "react";
+import { useEffect, useState, useCallback, createContext, PropsWithChildren } from "react";
 import AxiosInstance from '../helpers/api';
 import { useSearchParams, useNavigate, useLocation } from "react-router-dom";
 import { AppContextType, IBook } from "../@types/context";
@@ -105,22 +105,22 @@ const ContextProvider = ({ children }: PropsWithChildren) => {
     }, 100);
 
     return () => clearTimeout(debounceTimeout);
-  }, [query, books]);
+  }, [query, books, theme]);
 
   useEffect(() => {
     setFavoriteBooks(books?.filter((book) => favoritesList?.includes(book?._id)));
   }, [favoritesList, books]);
 
-  const fetchBooks = () => {
-    AxiosInstance
-      .get("/api/books")
-      .then((res) => {
-        setBooks(res.data);
-      })
-      .catch((err) => {
-        toast("There was an issue fetching books. Please try again.", { type: "error", theme })
-      });
-  };
+  const fetchBooks = useCallback(() => {
+      AxiosInstance
+        .get("/api/books")
+        .then((res) => {
+          setBooks(res.data);
+        })
+        .catch((err) => {
+          toast("There was an issue fetching books. Please try again.", { type: "error", theme })
+        });
+  }, [theme])
 
   const submitSearch = () => {
     if (query) {
@@ -139,7 +139,7 @@ const ContextProvider = ({ children }: PropsWithChildren) => {
     if (isAuthenticated) {
       fetchBooks();
     }
-  }, [isAuthenticated]);
+  }, [isAuthenticated, fetchBooks]);
 
   const toggleFavoriteById = (id: number) => {
     const existingFavorites = favoritesList.slice();
