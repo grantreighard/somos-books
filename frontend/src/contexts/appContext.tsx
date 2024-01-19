@@ -1,6 +1,6 @@
 import { useEffect, useState, createContext, PropsWithChildren } from "react";
 import AxiosInstance from '../helpers/api';
-import { useSearchParams } from "react-router-dom";
+import { useSearchParams, useNavigate } from "react-router-dom";
 import { AppContextType, IBook } from "../@types/context";
 
 export const AppContext = createContext<AppContextType | null>(null);
@@ -33,6 +33,7 @@ const ContextProvider = ({ children }: PropsWithChildren) => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [email, setEmail] = useState("")
   const [isLoading, setIsLoading] = useState(false);
+  const navigate = useNavigate()
 
   useEffect(() => {
     setFavoritesList(
@@ -56,6 +57,7 @@ const ContextProvider = ({ children }: PropsWithChildren) => {
       })
       .catch(err => {
         console.error(err)
+        navigate("/login")
         setIsLoading(true)
       })
   }, [])
