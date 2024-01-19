@@ -5,6 +5,7 @@ import { AppContextType } from "../@types/context";
 import { useNavigate } from "react-router-dom";
 import ThemeSwitcher from "./ThemeSwitcher";
 import AxiosInstance from '../helpers/api';
+import { toast } from "react-toastify";
 
 const Login = () => {
   const navigate = useNavigate();
@@ -24,10 +25,12 @@ const Login = () => {
         setEmail(res.data.email)
         setIsLoading(false);
         navigate('/search')
+        toast("Logged in successfully.", { type: "success", theme })
       })
       .catch(err => {
         console.error(err);
         setIsLoading(false);
+        toast("There was a problem logging in. Please try again.", { type: "error", theme })
       })
   }
 

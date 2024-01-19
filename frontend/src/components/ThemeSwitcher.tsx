@@ -12,7 +12,7 @@ const ThemeSwitcher = () => {
     if (
       !isLoading &&
       !isAuthenticated &&
-      !["/", "/login", "/register"].includes(location.pathname)
+      !["/login", "/register"].includes(location.pathname)
     ) {
       navigate("/login");
     }

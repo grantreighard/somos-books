@@ -80,7 +80,7 @@ module.exports = (app, db, baseUrl) => {
               // if the user exists and the passwords from creds and database match
               if (user) {
                 // generate token
-                const token = generateToken(user);
+                const token = generateToken({ email });
                 // return the token as a cookie
                 res.cookie("token", token, {
                   httpOnly: true,
@@ -105,11 +105,11 @@ module.exports = (app, db, baseUrl) => {
           // token is valid
           // set request user to do things like find roles
           db.collection("users")
-            .findOne({ email })
+            .findOne({ email: decodedToken.email })
             .then((user) => {
               res.status(200).send({
-                email: user.email,
-                favoritesList: user.favoritesList || [],
+                email: decodedToken.email,
+                favoritesList: user?.favoritesList || [],
               });
             });
         }
@@ -141,7 +141,7 @@ module.exports = (app, db, baseUrl) => {
         .then((user) => {
           // query the database for the user that has the ID returned
           // generate token
-          const token = generateToken(user);
+          const token = generateToken({ email });
           // return the token as a cookie
           res.cookie("token", token, {
             httpOnly: true,
@@ -151,7 +151,7 @@ module.exports = (app, db, baseUrl) => {
 
           // return token
           res.status(200).send({
-            email: user.email,
+            email,
             favoritesList: [],
           });
         })
@@ -178,7 +178,7 @@ module.exports = (app, db, baseUrl) => {
         // if the user exists and the passwords from creds and database match
         if (user && bcrypt.compareSync(password, user.password)) {
           // generate token
-          const token = generateToken(user);
+          const token = generateToken({ email });
           // return the token as a cookie
           res.cookie("token", token, {
             httpOnly: true,

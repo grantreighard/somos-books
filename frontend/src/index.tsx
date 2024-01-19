@@ -8,7 +8,9 @@ import Register from "./components/Register";
 import Search from "./components/Search";
 import Favorites from "./components/Favorites";
 import reportWebVitals from "./reportWebVitals";
+import { ToastContainer } from 'react-toastify';
 
+import 'react-toastify/dist/ReactToastify.css';
 import "./index.css";
 
 const root = ReactDOM.createRoot(
@@ -19,6 +21,7 @@ root.render(
   <React.StrictMode>
     <BrowserRouter>
       <AppContextProvider>
+        <ToastContainer />
         <Routes>
           <Route path="/" element={<App />} />
           <Route path="/login" element={<Login />} />

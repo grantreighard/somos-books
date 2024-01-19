@@ -1,11 +1,14 @@
 import { useEffect, useState, createContext, PropsWithChildren } from "react";
 import AxiosInstance from '../helpers/api';
-import { useSearchParams, useNavigate } from "react-router-dom";
+import { useSearchParams, useNavigate, useLocation } from "react-router-dom";
 import { AppContextType, IBook } from "../@types/context";
 
 export const AppContext = createContext<AppContextType | null>(null);
 
 const ContextProvider = ({ children }: PropsWithChildren) => {
+  const navigate = useNavigate()
+  const location = useLocation();
+
   const localTheme = localStorage.getItem("somos-books-theme");
 
   let prefersDarkMode = false;
@@ -33,7 +36,6 @@ const ContextProvider = ({ children }: PropsWithChildren) => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [email, setEmail] = useState("")
-  const navigate = useNavigate()
 
   useEffect(() => {
     localStorage.setItem("somos-books-theme", theme);
@@ -51,10 +53,10 @@ const ContextProvider = ({ children }: PropsWithChildren) => {
       })
       .catch(err => {
         console.error(err)
-        navigate("/login")
+        !['/login', '/register'].includes(location.pathname) && navigate("/login")
         setIsLoading(true)
       })
-  }, [navigate])
+  }, [navigate, location.pathname])
 
   const toggleTheme = () => {
     setTheme(theme === "light" ? "dark" : "light");

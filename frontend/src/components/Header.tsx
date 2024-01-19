@@ -4,16 +4,21 @@ import AxiosInstance from '../helpers/api';
 import { AppContext } from "../contexts/appContext";
 import { AppContextType } from "../@types/context";
 import ThemeSwitcher from "./ThemeSwitcher";
+import { toast } from "react-toastify";
 
 const Header = () => {
   const navigate = useNavigate()
-  const { setIsAuthenticated} = useContext(AppContext) as AppContextType;
+  const { setIsAuthenticated, theme } = useContext(AppContext) as AppContextType;
 
   const submitLogout = () => {
     AxiosInstance.get("/api/users/logout")
       .then(res => {
         setIsAuthenticated(false)
         navigate("/login")
+        toast("Logged out successfully.", { type: "success", theme })
+      })
+      .catch(() => {
+        toast("There was a problem logging out. Please try again.", { type: "error", theme })
       })
   }
 

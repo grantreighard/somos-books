@@ -5,10 +5,11 @@ import { AppContextType } from "../@types/context";
 import { useNavigate } from "react-router-dom";
 import ThemeSwitcher from "./ThemeSwitcher";
 import AxiosInstance from '../helpers/api';
+import { toast } from "react-toastify";
 
 const Register = () => {
   const navigate = useNavigate();
-  const { theme, setIsAuthenticated, setIsLoading } = useContext(AppContext) as AppContextType;
+  const { theme, setIsAuthenticated, setIsLoading, setEmail } = useContext(AppContext) as AppContextType;
   const [emailField, setEmailField] = useState("")
   const [password, setPassword] = useState("")
 
@@ -21,11 +22,14 @@ const Register = () => {
       .then(res => {
         setIsAuthenticated(true);
         setIsLoading(false);
+        setEmail(res.data.email)
         navigate('/search')
+        toast("Registered successfully.", { type: "success", theme })
       })
       .catch(err => {
         console.error(err);
         setIsLoading(false);
+        toast("There was a problem registering. Please try again.", { type: "error", theme })
       })
   }
 
