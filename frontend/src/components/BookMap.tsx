@@ -12,7 +12,7 @@ const BookMap: React.FC<IBookMapProps> = ({ books }) => {
     <div className="flex flex-wrap">
       {books.map((book: IBook) => {
         return (
-          <div className="w-[200px] h-[350px] flex flex-col m-4 overflow-hidden relative">
+          <div className="w-[200px] h-[350px] flex flex-col m-4 overflow-hidden relative" key={book?._id}>
             <img
               src={
                 book.thumbnailUrl ||
