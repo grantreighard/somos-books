@@ -43,9 +43,8 @@ const ContextProvider = ({ children }: PropsWithChildren) => {
   }, [theme]);
 
   useEffect(() => {
-    setIsLoading(true)
-
     if (['/search', 'favorites'].includes(location.pathname)) {
+      setIsLoading(true)
       AxiosInstance.get("/api/users/jwt") // allow authentication upon refresh using cookie
         .then(res => {
           setIsAuthenticated(true)
