@@ -1,11 +1,11 @@
-const jwt = require("jsonwebtoken");
+const jwtoken = require("jsonwebtoken");
 const bcrypt = require("bcryptjs");
 const { ObjectId } = require("mongodb");
 
-const secret = process.env.JSON_WEB_TOKEN_SECRET;
-const bcryptSalt = process.env.BCRYPT_SALT;
+module.exports = (app, db, baseUrl) => {
+  const secret = process.env.JSON_WEB_TOKEN_SECRET;
+  const bcryptSalt = process.env.BCRYPT_SALT;
 
-export default (app, db, baseUrl) => {
   function generateToken(user) {
     const payload = {
       email: user.email,
@@ -17,7 +17,7 @@ export default (app, db, baseUrl) => {
       subject: `${user._id}`,
     };
 
-    return jwt.sign(payload, secret, options);
+    return jwtoken.sign(payload, secret, options);
   }
 
   function protectedMiddleware(req, res, next) {
@@ -25,7 +25,7 @@ export default (app, db, baseUrl) => {
     const token = req.cookies.token;
     if (token) {
       // verify the token
-      jwt.verify(token, secret, (err, decodedToken) => {
+      jwtoken.verify(token, secret, (err, decodedToken) => {
         if (err) {
           if (err.name === "TokenExpiredError") {
             db.collection("users")
@@ -66,12 +66,13 @@ export default (app, db, baseUrl) => {
         .json({ error: "No token provided. You are unauthorized!" });
     }
   }
+
   app.get(`${baseUrl}/jwt`, protectedMiddleware, (req, res) => {
     if (req.cookies.token !== null) {
       const token = req.cookies.token;
       const { email } = req.user;
 
-      jwt.verify(token, secret, (err, decodedToken) => {
+      jwtoken.verify(token, secret, (err, decodedToken) => {
         if (err) {
           db.collection("users")
             .findOne({ email })
@@ -88,10 +89,6 @@ export default (app, db, baseUrl) => {
                 });
                 // return token
                 res.status(200).send({
-                  token,
-                  id: user._id,
-                  isSubscribed: user.paid,
-                  google: user.google,
                   email: user.email,
                 });
               } else {
@@ -146,11 +143,11 @@ export default (app, db, baseUrl) => {
 
           // return token
           res.status(200).send({
-            token,
             email: user.email,
           });
         })
         .catch((err) => {
+          console.log(err);
           res.status(500).send({ error: "Could not insert the user: " + err });
         });
     } else {
@@ -169,31 +166,27 @@ export default (app, db, baseUrl) => {
     db.collection("users")
       .findOne({ email })
       .then((user) => {
-        if (user.active) {
-          // if the user exists and the passwords from creds and database match
-          if (user && bcrypt.compareSync(password, user.password)) {
-            // generate token
-            const token = generateToken(user);
-            // return the token as a cookie
-            res.cookie("token", token, {
-              httpOnly: true,
-              sameSite: true,
-              secure: true,
-            });
+        // if the user exists and the passwords from creds and database match
+        if (user && bcrypt.compareSync(password, user.password)) {
+          // generate token
+          const token = generateToken(user);
+          // return the token as a cookie
+          res.cookie("token", token, {
+            httpOnly: true,
+            sameSite: true,
+            secure: true,
+          });
 
-            // return token
-            res.status(200).send({
-              token,
-              email: user.email,
-            });
-          } else {
-            res.status(401).send({ error: "Invalid username or password." });
-          }
+          // return token
+          res.status(200).send({
+            email: user.email,
+          });
         } else {
-          res.status(400).send({ error: "Please verify your email." });
+          res.status(401).send({ error: "Invalid username or password." });
         }
       })
       .catch((err) => {
+        console.log(err);
         res.status(404).send({ error: "Could not find that user." });
       });
   });

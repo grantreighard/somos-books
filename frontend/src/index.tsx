@@ -1,10 +1,10 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
-import { Auth0Provider } from "@auth0/auth0-react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import AppContextProvider from "./contexts/appContext";
 import App from "./App";
 import Login from "./components/Login";
+import Register from "./components/Register";
 import Search from "./components/Search";
 import Favorites from "./components/Favorites";
 import reportWebVitals from "./reportWebVitals";
@@ -17,27 +17,17 @@ const root = ReactDOM.createRoot(
 
 root.render(
   <React.StrictMode>
-    <Auth0Provider
-      domain="https://ghr-somos.us.auth0.com"
-      clientId="nJtJ1oWvbQxF38iNKPEVP46qYfqooowR"
-      authorizationParams={{
-        redirect_uri: "http://localhost:3000",
-      }}
-      onRedirectCallback={() =>
-        (window.location.href = "http://localhost:3000/search")
-      }
-    >
-      <BrowserRouter>
-        <AppContextProvider>
-          <Routes>
-            <Route path="/" element={<App />} />
-            <Route path="/login" element={<Login />} />
-            <Route path="/search" element={<Search />} />
-            <Route path="/favorites" element={<Favorites />} />
-          </Routes>
-        </AppContextProvider>
-      </BrowserRouter>
-    </Auth0Provider>
+    <BrowserRouter>
+      <AppContextProvider>
+        <Routes>
+          <Route path="/" element={<App />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/register" element={<Register />} />
+          <Route path="/search" element={<Search />} />
+          <Route path="/favorites" element={<Favorites />} />
+        </Routes>
+      </AppContextProvider>
+    </BrowserRouter>
   </React.StrictMode>
 );
 

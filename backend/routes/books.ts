@@ -1,6 +1,6 @@
 import booksJson from "../data/books.json";
 
-export default (app, db, baseUrl) => {
+module.exports = (app, db, baseUrl) => {
   app.get(baseUrl, (req, res) => {
     res.status(200).send(booksJson);
   });

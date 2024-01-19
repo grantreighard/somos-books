@@ -1,20 +1,48 @@
-import express from "express";
-import cors from "cors";
-import { MongoClient } from "mongodb";
-import dotenv from "dotenv";
-import bookRoutes from "./routes/books";
-import userRoutes from "./routes/users";
+const express = require("express");
+const cors = require("cors");
+const { MongoClient } = require("mongodb");
+const dotenv = require("dotenv");
+const jwt = require("express-jwt");
+const cookieParser = require("cookie-parser");
 
 dotenv.config();
 
 const app = express();
 
-app.use(express.json());
+app.use(express.json({ limit: "50mb" }));
+app.use(express.urlencoded({ limit: "50mb", extended: true }));
+app.use(cookieParser());
+
 app.use(
   cors({
     origin: "http://localhost:3000",
   })
 );
+
+app.use(function (req, res, next) {
+  if (req.headers.host?.includes("localhost")) {
+    res.setHeader("Access-Control-Allow-Origin", "http://localhost:3000");
+  }
+
+  res.setHeader(
+    "Access-Control-Allow-Headers",
+    "Origin, X-Requested-With, Content-Type, Accept, X-CSRF-Token"
+  );
+  res.setHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE");
+  res.setHeader("Access-Control-Allow-Credentials", "true");
+  next();
+});
+
+app.use(function (req, res, next) {
+  jwt({
+    secret: process.env.JSON_WEB_TOKEN_SECRET,
+    getToken: () => req.cookies.token,
+    algorithms: ["HS256"],
+  }).unless({
+    path: ["/api/users/login", "api/users/register"],
+  });
+  next();
+});
 
 const port = process.env.PORT ?? 4000; // add PORT from process.env for use on Heroku for instance
 
@@ -29,8 +57,8 @@ const connectToDatabase = async () => {
     await db.command({ ping: 1 });
     console.log("Connected successfully to database.");
 
-    bookRoutes(app, db, "/api/books");
-    userRoutes(app, db, "/api/users");
+    require("./routes/books")(app, db, "/api/books");
+    require("./routes/users")(app, db, "/api/users");
   } catch (err) {
     console.error(err);
   }

@@ -1,20 +1,18 @@
 import { useContext, useEffect } from "react";
 import { AppContext } from "../contexts/appContext";
 import { AppContextType } from "../@types/context";
-import { useAuth0 } from "@auth0/auth0-react";
 import { useLocation, useNavigate } from "react-router-dom";
 
 const ThemeSwitcher = () => {
-  const { isAuthenticated, isLoading } = useAuth0();
   const navigate = useNavigate();
   const location = useLocation();
-  const { theme, setTheme } = useContext(AppContext) as AppContextType;
+  const { theme, setTheme, isAuthenticated, isLoading } = useContext(AppContext) as AppContextType;
 
   useEffect(() => {
     if (
       !isLoading &&
       !isAuthenticated &&
-      !["/", "/login"].includes(location.pathname)
+      !["/", "/login", "/register"].includes(location.pathname)
     ) {
       navigate("/login");
     }

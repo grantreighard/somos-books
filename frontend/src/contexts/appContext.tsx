@@ -1,7 +1,6 @@
 import { useEffect, useState, createContext, PropsWithChildren } from "react";
 import axios from "axios";
 import { useSearchParams } from "react-router-dom";
-import { useAuth0 } from "@auth0/auth0-react";
 import { AppContextType, IBook } from "../@types/context";
 
 export const AppContext = createContext<AppContextType | null>(null);
@@ -17,8 +16,6 @@ const ContextProvider = ({ children }: PropsWithChildren) => {
     prefersDarkMode = true;
   }
 
-  const { isAuthenticated, user } = useAuth0();
-
   const [theme, setTheme] = useState(
     localTheme || (prefersDarkMode ? "dark" : "light") || "dark"
   );
@@ -33,18 +30,35 @@ const ContextProvider = ({ children }: PropsWithChildren) => {
   const [changedQuery, setChangedQuery] = useState(false);
   const [clickedSubmit, setClickedSubmit] = useState(false);
   const [favoritesList, setFavoritesList] = useState<number[]>([]);
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [email, setEmail] = useState("")
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     setFavoritesList(
       JSON.parse(
-        localStorage.getItem(`somos-book-favorites-${user?.email}`) || "[]"
+        localStorage.getItem(`somos-book-favorites-${email}`) || "[]"
       )
     );
-  }, [user]);
+  }, [email]);
 
   useEffect(() => {
     localStorage.setItem("somos-books-theme", theme);
   }, [theme]);
+
+  useEffect(() => {
+    setIsLoading(true)
+
+    axios.get("http://localhost:4000/api/users/jwt", { withCredentials: true }) // allow authentication upon refresh using cookie
+      .then(res => {
+        setIsAuthenticated(true)
+        setIsLoading(false)
+      })
+      .catch(err => {
+        console.error(err)
+        setIsLoading(true)
+      })
+  }, [])
 
   const toggleTheme = () => {
     setTheme(theme === "light" ? "dark" : "light");
@@ -141,7 +155,7 @@ const ContextProvider = ({ children }: PropsWithChildren) => {
     setFavoritesList(editedFavorites);
 
     localStorage.setItem(
-      `somos-book-favorites-${user?.email}`,
+      `somos-book-favorites-${email}`,
       JSON.stringify(editedFavorites)
     );
   };
@@ -157,6 +171,8 @@ const ContextProvider = ({ children }: PropsWithChildren) => {
         favoritesList,
         favoriteBooks,
         theme,
+        isAuthenticated,
+        isLoading,
         fetchBooks,
         setFilteredBooks,
         setSearchedBooks,
@@ -166,6 +182,9 @@ const ContextProvider = ({ children }: PropsWithChildren) => {
         toggleTheme,
         setTheme,
         setChangedQuery,
+        setIsAuthenticated,
+        setEmail,
+        setIsLoading
       }}
     >
       {children}

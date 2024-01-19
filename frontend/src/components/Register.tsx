@@ -6,18 +6,18 @@ import { useNavigate } from "react-router-dom";
 import ThemeSwitcher from "./ThemeSwitcher";
 import axios from "axios";
 
-const Login = () => {
+const Register = () => {
   const navigate = useNavigate();
   const { theme, setIsAuthenticated, setEmail, setIsLoading } = useContext(AppContext) as AppContextType;
   const [emailField, setEmailField] = useState("")
   const [password, setPassword] = useState("")
 
-  const submitLogin = (e: React.FormEvent<HTMLFormElement>) => {
+  const submitRegistration = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     setIsLoading(true);
     emailField && password && axios
-      .post("http://localhost:4000/api/users/login", { email: emailField, password })
+      .post("http://localhost:4000/api/users/register", { email: emailField, password })
       .then(res => {
         setIsAuthenticated(true);
         setEmail(res.data.email);
@@ -35,9 +35,9 @@ const Login = () => {
       <div className="w-screen h-screen flex flex-col items-center justify-center dark:text-white dark:bg-black">
         <ThemeSwitcher />
         <h1 className="text-2xl bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 inline-block text-transparent bg-clip-text">
-          Please log in to use Book Finder
+          Please register to use Book Finder
         </h1>
-        <form className="flex flex-col" onSubmit={submitLogin}>
+        <form className="flex flex-col" onSubmit={submitRegistration}>
           <input
             placeholder="Email address"
             value={emailField}
@@ -55,13 +55,13 @@ const Login = () => {
             type="submit"
             className="border-[1px] border-black dark:border-white p-2 rounded-md mt-2"
           >
-            Log In
+            Register
           </button>
         </form>
-        <Link to="/register">Register instead</Link>
+        <Link to="/login">Log in instead</Link>
       </div>
     </div>
   );
 };
 
-export default Login;
+export default Register;

@@ -21,6 +21,8 @@ export type AppContextType = {
   favoriteBooks: IBook[];
   favoritesList: number[];
   theme: string;
+  isAuthenticated: boolean;
+  isLoading: boolean;
   setQuery: (query) => void;
   submitSearch: () => void;
   fetchBooks: () => void;
@@ -30,4 +32,7 @@ export type AppContextType = {
   toggleTheme: () => void;
   setTheme: (string) => void;
   setChangedQuery: (boolean) => void;
+  setIsAuthenticated: (boolean) => void;
+  setEmail: (string) => void;
+  setIsLoading: (boolean) => void;
 };
