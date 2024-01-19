@@ -4,6 +4,7 @@ const { MongoClient } = require("mongodb");
 const dotenv = require("dotenv");
 const jwt = require("express-jwt");
 const cookieParser = require("cookie-parser");
+const unless = require("express-unless");
 
 dotenv.config();
 
@@ -15,7 +16,8 @@ app.use(cookieParser());
 
 app.use(
   cors({
-    origin: "http://localhost:3000",
+    origin: ["http://localhost:3000"],
+    credentials: true,
   })
 );
 
@@ -30,6 +32,7 @@ app.use(function (req, res, next) {
   );
   res.setHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE");
   res.setHeader("Access-Control-Allow-Credentials", "true");
+  res.setHeader("Access-Control-Expose-Headers", "Set-Cookie");
   next();
 });
 

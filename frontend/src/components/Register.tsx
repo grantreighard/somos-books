@@ -17,7 +17,7 @@ const Register = () => {
 
     setIsLoading(true);
     emailField && password && axios
-      .post("http://localhost:4000/api/users/register", { email: emailField, password })
+      .post("http://localhost:4000/api/users/register", { email: emailField, password }, { withCredentials: true })
       .then(res => {
         setIsAuthenticated(true);
         setEmail(res.data.email);

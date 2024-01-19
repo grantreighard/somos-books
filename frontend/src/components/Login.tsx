@@ -17,7 +17,7 @@ const Login = () => {
 
     setIsLoading(true);
     emailField && password && axios
-      .post("http://localhost:4000/api/users/login", { email: emailField, password })
+      .post("http://localhost:4000/api/users/login", { email: emailField, password }, { withCredentials: true })
       .then(res => {
         setIsAuthenticated(true);
         setEmail(res.data.email);
