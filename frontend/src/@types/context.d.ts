@@ -33,6 +33,7 @@ export type AppContextType = {
   setTheme: (string) => void;
   setChangedQuery: (boolean) => void;
   setIsAuthenticated: (boolean) => void;
-  setEmail: (string) => void;
   setIsLoading: (boolean) => void;
+  setFavoritesList: (number) => void;
+  setEmail: (string) => void;
 };

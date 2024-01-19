@@ -31,17 +31,9 @@ const ContextProvider = ({ children }: PropsWithChildren) => {
   const [clickedSubmit, setClickedSubmit] = useState(false);
   const [favoritesList, setFavoritesList] = useState<number[]>([]);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
-  const [email, setEmail] = useState("")
   const [isLoading, setIsLoading] = useState(false);
+  const [email, setEmail] = useState("")
   const navigate = useNavigate()
-
-  useEffect(() => {
-    setFavoritesList(
-      JSON.parse(
-        localStorage.getItem(`somos-book-favorites-${email}`) || "[]"
-      )
-    );
-  }, [email]);
 
   useEffect(() => {
     localStorage.setItem("somos-books-theme", theme);
@@ -53,6 +45,8 @@ const ContextProvider = ({ children }: PropsWithChildren) => {
     AxiosInstance.get("/api/users/jwt") // allow authentication upon refresh using cookie
       .then(res => {
         setIsAuthenticated(true)
+        setFavoritesList(res.data.favoritesList);
+        setEmail(res.data.email);
         setIsLoading(false)
       })
       .catch(err => {
@@ -110,7 +104,7 @@ const ContextProvider = ({ children }: PropsWithChildren) => {
   }, [query, books]);
 
   useEffect(() => {
-    setFavoriteBooks(books?.filter((book) => favoritesList.includes(book?._id)));
+    setFavoriteBooks(books?.filter((book) => favoritesList?.includes(book?._id)));
   }, [favoritesList, books]);
 
   const fetchBooks = () => {
@@ -147,7 +141,7 @@ const ContextProvider = ({ children }: PropsWithChildren) => {
     const existingFavorites = favoritesList.slice();
     let editedFavorites = [];
 
-    if (existingFavorites.includes(id)) {
+    if (existingFavorites?.includes(id)) {
       editedFavorites = existingFavorites.filter((fav) => fav !== id);
     } else {
       editedFavorites = [...existingFavorites];
@@ -156,10 +150,13 @@ const ContextProvider = ({ children }: PropsWithChildren) => {
 
     setFavoritesList(editedFavorites);
 
-    localStorage.setItem(
-      `somos-book-favorites-${email}`,
-      JSON.stringify(editedFavorites)
-    );
+    AxiosInstance.put("/api/books/set-favorites", { favoritesList: editedFavorites, email })
+      .then(res => {
+        console.log("saved favorites")
+      })
+      .catch(err => {
+        console.error(err)
+      })
   };
 
   return (
@@ -185,8 +182,9 @@ const ContextProvider = ({ children }: PropsWithChildren) => {
         setTheme,
         setChangedQuery,
         setIsAuthenticated,
-        setEmail,
-        setIsLoading
+        setIsLoading,
+        setFavoritesList,
+        setEmail
       }}
     >
       {children}

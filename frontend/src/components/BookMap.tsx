@@ -37,11 +37,11 @@ const BookMap: React.FC<IBookMapProps> = ({ books }) => {
             <button
               onClick={() => toggleFavoriteById(book._id)}
               title={
-                favoritesList.includes(book?._id) ? "Unfavorite" : "Favorite"
+                favoritesList?.includes(book?._id) ? "Unfavorite" : "Favorite"
               }
               className={
                 "absolute top-[0px] right-[10px] bg-gray-300 rounded-full w-[30px] h-[30px]" +
-                (!favoritesList.includes(book?._id) ? " filter grayscale" : "")
+                (!favoritesList?.includes(book?._id) ? " filter grayscale" : "")
               }
             >
               ⭐️

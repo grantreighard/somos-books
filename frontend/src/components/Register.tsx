@@ -8,7 +8,7 @@ import AxiosInstance from '../helpers/api';
 
 const Register = () => {
   const navigate = useNavigate();
-  const { theme, setIsAuthenticated, setEmail, setIsLoading } = useContext(AppContext) as AppContextType;
+  const { theme, setIsAuthenticated, setIsLoading } = useContext(AppContext) as AppContextType;
   const [emailField, setEmailField] = useState("")
   const [password, setPassword] = useState("")
 
@@ -20,7 +20,6 @@ const Register = () => {
       .post("/api/users/register", { email: emailField, password })
       .then(res => {
         setIsAuthenticated(true);
-        setEmail(res.data.email);
         setIsLoading(false);
         navigate('/search')
       })

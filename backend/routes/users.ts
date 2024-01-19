@@ -90,6 +90,7 @@ module.exports = (app, db, baseUrl) => {
                 // return token
                 res.status(200).send({
                   email: user.email,
+                  favoritesList: user.favoritesList || [],
                 });
               } else {
                 res
@@ -103,7 +104,14 @@ module.exports = (app, db, baseUrl) => {
         } else {
           // token is valid
           // set request user to do things like find roles
-          res.status(200).send({ token: req.cookies.token });
+          db.collection("users")
+            .findOne({ email })
+            .then((user) => {
+              res.status(200).send({
+                email: user.email,
+                favoritesList: user.favoritesList || [],
+              });
+            });
         }
       });
     } else {
@@ -144,6 +152,7 @@ module.exports = (app, db, baseUrl) => {
           // return token
           res.status(200).send({
             email: user.email,
+            favoritesList: [],
           });
         })
         .catch((err) => {
@@ -178,6 +187,7 @@ module.exports = (app, db, baseUrl) => {
           // return token
           res.status(200).send({
             email: user.email,
+            favoritesList: user.favoritesList || [],
           });
         } else {
           res.status(401).send({ error: "Invalid username or password." });
