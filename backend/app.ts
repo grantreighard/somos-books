@@ -3,6 +3,7 @@ import cors from "cors";
 import { MongoClient } from "mongodb";
 import dotenv from "dotenv";
 import bookRoutes from "./routes/books";
+import userRoutes from "./routes/users";
 
 dotenv.config();
 
@@ -29,6 +30,7 @@ const connectToDatabase = async () => {
     console.log("Connected successfully to database.");
 
     bookRoutes(app, db, "/api/books");
+    userRoutes(app, db, "/api/users");
   } catch (err) {
     console.error(err);
   }
