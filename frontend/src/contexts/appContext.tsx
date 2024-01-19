@@ -22,7 +22,7 @@ const ContextProvider = ({ children }: PropsWithChildren) => {
     prefersDarkMode = true;
   }
 
-  const { isAuthenticated } = useAuth0();
+  const { isAuthenticated, user } = useAuth0();
 
   const [theme, setTheme] = useState(
     localTheme || (prefersDarkMode ? "dark" : "light") || "dark"
@@ -37,9 +37,11 @@ const ContextProvider = ({ children }: PropsWithChildren) => {
   );
   const [changedQuery, setChangedQuery] = useState(false);
   const [clickedSubmit, setClickedSubmit] = useState(false);
-  const [favoritesList, setFavoritesList] = useState<number[]>(
-    JSON.parse(localStorage.getItem("somos-book-favorites") || "[]")
-  );
+  const [favoritesList, setFavoritesList] = useState<number[]>([]);
+
+  useEffect(() => {
+    setFavoritesList(JSON.parse(localStorage.getItem(`somos-book-favorites-${user?.email}`) || "[]"))
+  }, [user])
 
   useEffect(() => {
     localStorage.setItem("somos-books-theme", theme);
@@ -131,7 +133,7 @@ const ContextProvider = ({ children }: PropsWithChildren) => {
     setFavoritesList(editedFavorites);
 
     localStorage.setItem(
-      "somos-book-favorites",
+      `somos-book-favorites-${user?.email}`,
       JSON.stringify(editedFavorites)
     );
   };

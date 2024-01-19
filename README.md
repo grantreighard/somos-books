@@ -20,3 +20,4 @@ The project is a book finder that loads in a finite set of data about books from
 # Notes
 
 - No .env files are required. There are no external environment variables for either the front end or back end.
+- Favorites are currently saved to localStorage per user based on email provided at login. In a real production application, this list should be saved into a database on the user's account object.
