@@ -10,7 +10,7 @@ const Favorites = () => {
   return (
     <div className={theme}>
       <Header />
-      <h1 className="text-3xl dark:text-white dark:bg-black pl-4 pt-2">
+      <h1 className="text-3xl dark:text-white dark:bg-black pl-4 pt-2 bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 inline-block text-transparent bg-clip-text">
         Favorites
       </h1>
       <BookList />

@@ -18,9 +18,9 @@ const Header = () => {
           </li>
           <li
             className="m-2 cursor-pointer"
-            onClick={() =>
-              logout({ logoutParams: { returnTo: window.location.origin } })
-            }
+            onClick={() => {
+              logout({ logoutParams: { returnTo: "http://localhost:3000" } });
+            }}
           >
             Log out
           </li>

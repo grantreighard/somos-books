@@ -23,6 +23,9 @@ root.render(
       authorizationParams={{
         redirect_uri: "http://localhost:3000",
       }}
+      onRedirectCallback={() =>
+        (window.location.href = "http://localhost:3000/search")
+      }
     >
       <BrowserRouter>
         <AppContextProvider>

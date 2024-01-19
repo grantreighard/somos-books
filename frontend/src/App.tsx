@@ -15,9 +15,7 @@ function App() {
     }
   }, [isLoading, isAuthenticated, navigate]);
 
-  return (
-    <></>
-  );
+  return <></>;
 }
 
 export default App;
