@@ -4,7 +4,6 @@ const { ObjectId } = require("mongodb");
 
 module.exports = (app, db, baseUrl) => {
   const secret = process.env.JSON_WEB_TOKEN_SECRET;
-  const bcryptSalt = process.env.BCRYPT_SALT;
 
   function generateToken(user) {
     const payload = {

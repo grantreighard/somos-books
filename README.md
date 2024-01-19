@@ -13,11 +13,18 @@ The project is a book finder that loads in a finite set of data about books from
 5. Install the modules `yarn install`
 6. In a new terminal, change into the backend directory `cd backend/`
 7. Install the modules `yarn install`
-8. In backend terminal, run the server `yarn start` or `yarn dev`
-9. In the frontend terminal, run the webapp `yarn start`
-10. Visit the [webapp](http://localhost:3000) in your browser
+8. Unzip the file attached to the email submitting this project with the included password.
+9. Place the .env files from the unzipped folder into the appropriate project directories: frontend -> frontend and backend -> backend.
+10. In backend terminal, run the server `yarn start` or `yarn dev`
+11. In the frontend terminal, run the webapp `yarn start`
+12. Visit the [webapp](http://localhost:3000) in your browser
+
+# Alternative
+
+If you'd prefer to just review the code and view a live version, you can do so [here](https://books.grantreighard.com).
 
 # Notes
 
-- No .env files are required. There are no external environment variables for either the front end or back end.
-- Favorites are currently saved to localStorage per user based on email provided at login. In a real production application, this list should be saved into a database on the user's account object.
+- An .env file is required for both the front end and back end.
+- Required values for frontend .env file: REACT_APP_SERVER_BASE_URL
+- Required values for backend .env file: DB_URL, JSON_WEB_TOKEN_SECRET, JWT_ID
