@@ -9,7 +9,7 @@ const BookList = () => {
 
   const isSearch = location.pathname === "/search"
   const isFavorites = location.pathname === "/favorites"
-  const { query, books, filteredBooks, favoriteBooks, searchParams, setQuery, submitSearch } = useContext(AppContext) as AppContextType;
+  const { query, books, filteredBooks, favoriteBooks, searchParams, setQuery, submitSearch, setChangedQuery } = useContext(AppContext) as AppContextType;
 
   const onKeyDown = (e: React.KeyboardEvent<HTMLDivElement>) => {
     if (e.key === 'Enter') {
@@ -21,9 +21,12 @@ const BookList = () => {
     <div className="h-screen dark:text-white dark:bg-black">
       { isSearch && <>
         <p>Search through our library of {books.length} books!</p>
-        <input placeholder="Search by title or author" value={query} onChange={e => setQuery(e.target.value)} onKeyDown={onKeyDown} className="border-2 border-black dark:border-white dark:text-white dark:bg-black" />
+        <input placeholder="Search by title or author" value={query} onChange={e => {
+          setQuery(e.target.value)
+          setChangedQuery(true);
+        }} onKeyDown={onKeyDown} className="border-2 border-black dark:border-white dark:text-white dark:bg-black" />
         <button onClick={submitSearch} disabled={!query && !`${searchParams}`}>Search</button>
-        { (filteredBooks.length !== books.length) && <p>{filteredBooks.length} results found</p> }
+        {(filteredBooks.length !== books.length) && <p>{filteredBooks.length} results found</p>}
         <BookMap books={filteredBooks}/>
       </>}
       

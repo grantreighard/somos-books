@@ -5,7 +5,7 @@ import "./App.css";
 
 function App() {
   const navigate = useNavigate();
-  const { user, isAuthenticated, isLoading, logout } = useAuth0();
+  const { isAuthenticated, isLoading } = useAuth0();
 
   useEffect(() => {
     if (!isLoading && !isAuthenticated) {

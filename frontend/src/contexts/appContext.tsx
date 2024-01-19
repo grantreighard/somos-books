@@ -1,4 +1,4 @@
-import React, {
+import {
   useEffect,
   useState,
   createContext,
@@ -35,6 +35,8 @@ const ContextProvider = ({ children }: PropsWithChildren) => {
   const [query, setQuery] = useState(
     `${searchParams}` ? `${searchParams}`.split("q=")[1].replace("+", " ") : ""
   );
+  const [changedQuery, setChangedQuery] = useState(false);
+  const [clickedSubmit, setClickedSubmit] = useState(false);
   const [favoritesList, setFavoritesList] = useState<number[]>(
     JSON.parse(localStorage.getItem("somos-book-favorites") || "[]")
   );
@@ -48,12 +50,18 @@ const ContextProvider = ({ children }: PropsWithChildren) => {
   }
 
   useEffect(() => {
-    if (!searchedBooks.length) {
+    if (!query && !searchedBooks.length) {
       setFilteredBooks(books);
-    } else {
+    } else if (clickedSubmit && query && !searchedBooks.length) {
+      setFilteredBooks([]);
+      setClickedSubmit(false)
+    } else if (!changedQuery && searchedBooks.length) {
       setFilteredBooks(searchedBooks);
+    } else if (clickedSubmit) {
+      setFilteredBooks(searchedBooks);
+      setClickedSubmit(false);
     }
-  }, [books]);
+  }, [books, searchedBooks, clickedSubmit, query, changedQuery]);
 
   useEffect(() => {
     const debounceTimeout = setTimeout(() => {
@@ -73,7 +81,7 @@ const ContextProvider = ({ children }: PropsWithChildren) => {
     }, 100);
 
     return () => clearTimeout(debounceTimeout);
-  }, [query]);
+  }, [query, books]);
 
   useEffect(() => {
     setFavoriteBooks(books.filter((book) => favoritesList.includes(book?._id)));
@@ -100,6 +108,7 @@ const ContextProvider = ({ children }: PropsWithChildren) => {
     }
 
     setFilteredBooks(searchedBooks);
+    setClickedSubmit(true); // added to clear exhaustive-deps warning on useEffect above
   };
 
   useEffect(() => {
@@ -144,7 +153,8 @@ const ContextProvider = ({ children }: PropsWithChildren) => {
         setQuery,
         submitSearch,
         toggleFavoriteById,
-        toggleTheme
+        toggleTheme,
+        setChangedQuery
       }}
     >
       {children}

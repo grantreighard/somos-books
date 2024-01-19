@@ -28,4 +28,5 @@ export type AppContextType = {
   setSearchedBooks: (books) => void;
   toggleFavoriteById: (number) => void;
   toggleTheme: () => void;
+  setChangedQuery: (boolean) => void;
 };
