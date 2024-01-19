@@ -1,4 +1,4 @@
-import booksJson from "../data/books.json";
+const booksJson = require("../data/books.json");
 
 module.exports = (app, db, baseUrl) => {
   app.get(baseUrl, (req, res) => {
