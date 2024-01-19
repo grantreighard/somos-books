@@ -1,6 +1,6 @@
 import { useContext } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import axios from 'axios';
+import AxiosInstance from '../helpers/api';
 import { AppContext } from "../contexts/appContext";
 import { AppContextType } from "../@types/context";
 import ThemeSwitcher from "./ThemeSwitcher";
@@ -10,7 +10,7 @@ const Header = () => {
   const { setIsAuthenticated} = useContext(AppContext) as AppContextType;
 
   const submitLogout = () => {
-    axios.get("http://localhost:4000/api/users/logout")
+    AxiosInstance.get("/api/users/logout")
       .then(res => {
         setIsAuthenticated(false)
         navigate("/login")

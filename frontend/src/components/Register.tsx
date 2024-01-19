@@ -4,7 +4,7 @@ import { AppContext } from "../contexts/appContext";
 import { AppContextType } from "../@types/context";
 import { useNavigate } from "react-router-dom";
 import ThemeSwitcher from "./ThemeSwitcher";
-import axios from "axios";
+import AxiosInstance from '../helpers/api';
 
 const Register = () => {
   const navigate = useNavigate();
@@ -16,8 +16,8 @@ const Register = () => {
     e.preventDefault();
 
     setIsLoading(true);
-    emailField && password && axios
-      .post("http://localhost:4000/api/users/register", { email: emailField, password }, { withCredentials: true })
+    emailField && password && AxiosInstance
+      .post("/api/users/register", { email: emailField, password })
       .then(res => {
         setIsAuthenticated(true);
         setEmail(res.data.email);

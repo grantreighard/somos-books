@@ -1,5 +1,5 @@
 import { useEffect, useState, createContext, PropsWithChildren } from "react";
-import axios from "axios";
+import AxiosInstance from '../helpers/api';
 import { useSearchParams } from "react-router-dom";
 import { AppContextType, IBook } from "../@types/context";
 
@@ -49,7 +49,7 @@ const ContextProvider = ({ children }: PropsWithChildren) => {
   useEffect(() => {
     setIsLoading(true)
 
-    axios.get("http://localhost:4000/api/users/jwt", { withCredentials: true }) // allow authentication upon refresh using cookie
+    AxiosInstance.get("/api/users/jwt") // allow authentication upon refresh using cookie
       .then(res => {
         setIsAuthenticated(true)
         setIsLoading(false)
@@ -90,8 +90,8 @@ const ContextProvider = ({ children }: PropsWithChildren) => {
   useEffect(() => {
     const debounceTimeout = setTimeout(() => {
       query &&
-        axios
-          .get(`http://localhost:4000/api/books/search/${encodeURI(query)}`, { withCredentials: true })
+        AxiosInstance
+          .get(`/api/books/search/${encodeURI(query)}`)
           .then((res) => {
             setSearchedBooks(res.data);
           })
@@ -112,8 +112,8 @@ const ContextProvider = ({ children }: PropsWithChildren) => {
   }, [favoritesList, books]);
 
   const fetchBooks = () => {
-    axios
-      .get("http://localhost:4000/api/books", { withCredentials: true })
+    AxiosInstance
+      .get("/api/books")
       .then((res) => {
         setBooks(res.data);
       })

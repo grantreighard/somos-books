@@ -36,7 +36,9 @@ module.exports = (app, db, baseUrl) => {
                 });
 
                 res.cookie("token", newToken, {
+                  httpOnly: true,
                   sameSite: true,
+                  secure: true,
                 });
 
                 req.user = { email: decodedToken.email };
@@ -135,6 +137,8 @@ module.exports = (app, db, baseUrl) => {
           // return the token as a cookie
           res.cookie("token", token, {
             httpOnly: true,
+            sameSite: true,
+            secure: true,
           });
 
           // return token
