@@ -28,7 +28,6 @@ const Login = () => {
         toast("Logged in successfully.", { type: "success", theme })
       })
       .catch(err => {
-        console.error(err);
         setIsLoading(false);
         toast("There was a problem logging in. Please try again.", { type: "error", theme })
       })

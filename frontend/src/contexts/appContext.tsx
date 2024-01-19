@@ -2,6 +2,7 @@ import { useEffect, useState, createContext, PropsWithChildren } from "react";
 import AxiosInstance from '../helpers/api';
 import { useSearchParams, useNavigate, useLocation } from "react-router-dom";
 import { AppContextType, IBook } from "../@types/context";
+import { toast } from "react-toastify";
 
 export const AppContext = createContext<AppContextType | null>(null);
 
@@ -44,18 +45,19 @@ const ContextProvider = ({ children }: PropsWithChildren) => {
   useEffect(() => {
     setIsLoading(true)
 
-    AxiosInstance.get("/api/users/jwt") // allow authentication upon refresh using cookie
-      .then(res => {
-        setIsAuthenticated(true)
-        setFavoritesList(res.data.favoritesList);
-        setEmail(res.data.email);
-        setIsLoading(false)
-      })
-      .catch(err => {
-        console.error(err)
-        !['/login', '/register'].includes(location.pathname) && navigate("/login")
-        setIsLoading(true)
-      })
+    if (['/search', 'favorites'].includes(location.pathname)) {
+      AxiosInstance.get("/api/users/jwt") // allow authentication upon refresh using cookie
+        .then(res => {
+          setIsAuthenticated(true)
+          setFavoritesList(res.data.favoritesList);
+          setEmail(res.data.email);
+          setIsLoading(false)
+        })
+        .catch(err => {
+          !['/login', '/register'].includes(location.pathname) && navigate("/login")
+          setIsLoading(true)
+        })
+    }
   }, [navigate, location.pathname])
 
   const toggleTheme = () => {
@@ -94,7 +96,7 @@ const ContextProvider = ({ children }: PropsWithChildren) => {
             setSearchedBooks(res.data);
           })
           .catch((err) => {
-            console.error(err);
+            toast("There was an issue searching books. Please try again.", { type: "error", theme })
           });
 
       if (!query) {
@@ -116,7 +118,7 @@ const ContextProvider = ({ children }: PropsWithChildren) => {
         setBooks(res.data);
       })
       .catch((err) => {
-        console.error(err);
+        toast("There was an issue fetching books. Please try again.", { type: "error", theme })
       });
   };
 
@@ -153,11 +155,9 @@ const ContextProvider = ({ children }: PropsWithChildren) => {
     setFavoritesList(editedFavorites);
 
     AxiosInstance.put("/api/books/set-favorites", { favoritesList: editedFavorites, email })
-      .then(res => {
-        console.log("saved favorites")
-      })
+      .then(res => {})
       .catch(err => {
-        console.error(err)
+        toast("There was an issue favoriting this book. Please try again.", { type: "error", theme })
       })
   };
 

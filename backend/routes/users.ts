@@ -155,7 +155,6 @@ module.exports = (app, db, baseUrl) => {
           });
         })
         .catch((err) => {
-          console.log(err);
           res.status(500).send({ error: "Could not insert the user: " + err });
         });
     } else {
@@ -193,7 +192,6 @@ module.exports = (app, db, baseUrl) => {
         }
       })
       .catch((err) => {
-        console.log(err);
         res.status(404).send({ error: "Could not find that user." });
       });
   });

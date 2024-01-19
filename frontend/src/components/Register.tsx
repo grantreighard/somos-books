@@ -27,7 +27,6 @@ const Register = () => {
         toast("Registered successfully.", { type: "success", theme })
       })
       .catch(err => {
-        console.error(err);
         setIsLoading(false);
         toast("There was a problem registering. Please try again.", { type: "error", theme })
       })
