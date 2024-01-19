@@ -18,12 +18,12 @@ const BookList = () => {
   }
 
   return (
-    <div className="dark:text-white dark:bg-black">
+    <div className="h-screen dark:text-white dark:bg-black">
       { isSearch && <>
         <p>Search through our library of {books.length} books!</p>
-        <input placeholder="Search by title or author" value={query} onChange={e => setQuery(e.target.value)} onKeyDown={onKeyDown} />
+        <input placeholder="Search by title or author" value={query} onChange={e => setQuery(e.target.value)} onKeyDown={onKeyDown} className="border-2 border-black dark:border-white dark:text-white dark:bg-black" />
         <button onClick={submitSearch} disabled={!query && !`${searchParams}`}>Search</button>
-        <p>{filteredBooks.length} results found</p>
+        { (filteredBooks.length !== books.length) && <p>{filteredBooks.length} results found</p> }
         <BookMap books={filteredBooks}/>
       </>}
       
