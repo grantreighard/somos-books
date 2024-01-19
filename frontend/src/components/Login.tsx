@@ -12,8 +12,13 @@ const LoginButton = () => {
     <div className={`${theme}`}>
       <div className="w-screen h-screen flex flex-col items-center justify-center dark:text-white dark:bg-black">
         <ThemeSwitcher />
-        <h1 className="text-3xl">Please log in to use Book Finder</h1>
-        <button onClick={() => loginWithRedirect()}>Log In</button>
+        <h1 className="text-2xl">Please log in to use Book Finder</h1>
+        <button
+          onClick={() => loginWithRedirect()}
+          className="border-[1px] border-black dark:border-white p-2 rounded-md mt-2"
+        >
+          Log In
+        </button>
       </div>
     </div>
   );

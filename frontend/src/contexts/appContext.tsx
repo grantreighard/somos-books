@@ -1,9 +1,4 @@
-import {
-  useEffect,
-  useState,
-  createContext,
-  PropsWithChildren,
-} from "react";
+import { useEffect, useState, createContext, PropsWithChildren } from "react";
 import axios from "axios";
 import { useSearchParams } from "react-router-dom";
 import { useAuth0 } from "@auth0/auth0-react";
@@ -40,8 +35,12 @@ const ContextProvider = ({ children }: PropsWithChildren) => {
   const [favoritesList, setFavoritesList] = useState<number[]>([]);
 
   useEffect(() => {
-    setFavoritesList(JSON.parse(localStorage.getItem(`somos-book-favorites-${user?.email}`) || "[]"))
-  }, [user])
+    setFavoritesList(
+      JSON.parse(
+        localStorage.getItem(`somos-book-favorites-${user?.email}`) || "[]"
+      )
+    );
+  }, [user]);
 
   useEffect(() => {
     localStorage.setItem("somos-books-theme", theme);
@@ -49,17 +48,26 @@ const ContextProvider = ({ children }: PropsWithChildren) => {
 
   const toggleTheme = () => {
     setTheme(theme === "light" ? "dark" : "light");
-  }
+  };
 
   useEffect(() => {
     if (!query && !searchedBooks.length) {
+      // reset after query deleted
       setFilteredBooks(books);
+      setSearchParams("");
+    } else if (!query && changedQuery) {
+      // clear button clicked
+      setFilteredBooks(books);
+      setSearchParams("");
     } else if (clickedSubmit && query && !searchedBooks.length) {
+      // submit button clicked, no matching results
       setFilteredBooks([]);
-      setClickedSubmit(false)
+      setClickedSubmit(false);
     } else if (!changedQuery && searchedBooks.length) {
+      // browser refresh
       setFilteredBooks(searchedBooks);
     } else if (clickedSubmit) {
+      // submit button clicked
       setFilteredBooks(searchedBooks);
       setClickedSubmit(false);
     }
@@ -157,7 +165,7 @@ const ContextProvider = ({ children }: PropsWithChildren) => {
         toggleFavoriteById,
         toggleTheme,
         setTheme,
-        setChangedQuery
+        setChangedQuery,
       }}
     >
       {children}

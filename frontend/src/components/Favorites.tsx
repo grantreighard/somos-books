@@ -10,7 +10,9 @@ const Favorites = () => {
   return (
     <div className={theme}>
       <Header />
-      <h1 className="text-3xl dark:text-white dark:bg-black">Favorites</h1>
+      <h1 className="text-3xl dark:text-white dark:bg-black pl-4 pt-2">
+        Favorites
+      </h1>
       <BookList />
     </div>
   );

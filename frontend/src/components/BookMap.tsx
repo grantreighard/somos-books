@@ -12,7 +12,10 @@ const BookMap: React.FC<IBookMapProps> = ({ books }) => {
     <div className="flex flex-wrap">
       {books.map((book: IBook) => {
         return (
-          <div className="w-[200px] h-[350px] flex flex-col m-4 overflow-hidden relative" key={book?._id}>
+          <div
+            className="w-[200px] h-[350px] flex flex-col m-4 overflow-hidden relative"
+            key={book?._id}
+          >
             <img
               src={
                 book.thumbnailUrl ||
@@ -37,9 +40,8 @@ const BookMap: React.FC<IBookMapProps> = ({ books }) => {
                 favoritesList.includes(book?._id) ? "Unfavorite" : "Favorite"
               }
               className={
-                "absolute top-[0px] right-[10px] bg-gray-300 rounded-full w-[30px] h-[30px]" + 
-                (!favoritesList.includes(book?._id)
-                 ? " filter grayscale" : "")
+                "absolute top-[0px] right-[10px] bg-gray-300 rounded-full w-[30px] h-[30px]" +
+                (!favoritesList.includes(book?._id) ? " filter grayscale" : "")
               }
             >
               ⭐️
