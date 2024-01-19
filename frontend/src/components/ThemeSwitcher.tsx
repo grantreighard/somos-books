@@ -8,7 +8,7 @@ const ThemeSwitcher = () => {
   const { isAuthenticated, isLoading } = useAuth0();
   const navigate = useNavigate();
   const location = useLocation();
-  const { theme, toggleTheme } = useContext(AppContext) as AppContextType;
+  const { theme, setTheme } = useContext(AppContext) as AppContextType;
 
   useEffect(() => {
     if (!isLoading && !isAuthenticated && !["/", "/login"].includes(location.pathname)) {
@@ -16,8 +16,9 @@ const ThemeSwitcher = () => {
     }
   }, [isLoading, isAuthenticated, location.pathname, navigate])
 
-  return <div className="absolute top-[10px] right-[20px]">
-    <button onClick={toggleTheme}>{theme === "dark" ? "🌞" : "🌑"}</button>
+  return <div className="absolute top-[10px] right-[20px] rounded-full bg-gray-200 dark:bg-gray-900">
+    <button onClick={() => setTheme("light")} disabled={theme === "light"} className={theme === "dark" ? "filter grayscale mr-2" : "mr-2"}>🌞</button>
+    <button onClick={() => setTheme("dark")} disabled={theme === "dark"} className={theme === "light" ? "filter grayscale" : ""}>🌒</button>
   </div>;
 };
 

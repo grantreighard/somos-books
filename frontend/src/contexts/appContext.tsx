@@ -156,6 +156,7 @@ const ContextProvider = ({ children }: PropsWithChildren) => {
         submitSearch,
         toggleFavoriteById,
         toggleTheme,
+        setTheme,
         setChangedQuery
       }}
     >
