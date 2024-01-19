@@ -21,10 +21,10 @@ const BookList = () => {
     <div className="min-h-screen h-[100%] dark:text-white dark:bg-black">
       { isSearch && <>
         <p>Search through our library of {books.length} books!</p>
-        <input placeholder="Search by title or author" value={query} onChange={e => {
+        <input placeholder="Search books by title or author" value={query} onChange={e => {
           setQuery(e.target.value)
           setChangedQuery(true);
-        }} onKeyDown={onKeyDown} className="border-2 border-black dark:border-white dark:text-white dark:bg-black" />
+        }} onKeyDown={onKeyDown} className="border-2 border-black dark:border-white dark:text-white dark:bg-black w-[300px] mr-2" />
         <button onClick={submitSearch} disabled={!query && !`${searchParams}`}>Search</button>
         {(filteredBooks.length !== books.length) && <p>{filteredBooks.length} results found</p>}
         <BookMap books={filteredBooks}/>
