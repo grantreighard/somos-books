@@ -60,8 +60,8 @@ const connectToDatabase = async () => {
     await db.command({ ping: 1 });
     console.log("Connected successfully to database.");
 
-    require("./routes/books")(app, db, "/api/books");
-    require("./routes/users")(app, db, "/api/users");
+    require("./routes/books.ts")(app, db, "/api/books");
+    require("./routes/users.ts")(app, db, "/api/users");
   } catch (err) {
     console.error(err);
   }
