@@ -9,7 +9,9 @@ function App() {
   const { isAuthenticated, isLoading } = useContext(AppContext) as AppContextType;
 
   useEffect(() => {
-    if (!isLoading && isAuthenticated) {
+    if (!isLoading && !isAuthenticated) {
+      navigate("/login");
+    } else if (!isLoading && isAuthenticated) {
       navigate("/search");
     }
   }, [isLoading, isAuthenticated, navigate]);
