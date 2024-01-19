@@ -77,7 +77,7 @@ const ContextProvider = ({ children }: PropsWithChildren) => {
     const debounceTimeout = setTimeout(() => {
       query &&
         axios
-          .get(`http://localhost:4000/search-books/${encodeURI(query)}`)
+          .get(`http://localhost:4000/api/books/search/${encodeURI(query)}`)
           .then((res) => {
             setSearchedBooks(res.data);
           })
@@ -99,7 +99,7 @@ const ContextProvider = ({ children }: PropsWithChildren) => {
 
   const fetchBooks = () => {
     axios
-      .get("http://localhost:4000/books")
+      .get("http://localhost:4000/api/books")
       .then((res) => {
         setBooks(res.data);
       })
