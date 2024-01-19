@@ -108,7 +108,7 @@ const ContextProvider = ({ children }: PropsWithChildren) => {
   }, [query, books]);
 
   useEffect(() => {
-    setFavoriteBooks(books.filter((book) => favoritesList.includes(book?._id)));
+    setFavoriteBooks(books?.filter((book) => favoritesList.includes(book?._id)));
   }, [favoritesList, books]);
 
   const fetchBooks = () => {
