@@ -36,27 +36,18 @@ const BookList = () => {
   }, []);
 
   function compare(a: IIndexable, b: IIndexable, key: string) {
-    if (key === "authors") {
-      if (a[key][0] < b[key][0]) {
-        return sortDirection === "ascending" ? -1 : 1;
-      }
+    const aString = Array.isArray(a[key]) ? a[key][0] : a[key];
+    const bString = Array.isArray(b[key]) ? b[key][0] : b[key];
 
-      if (a[key][0] > b[key][0]) {
-        return sortDirection === "ascending" ? 1 : -1;
-      }
-
-      return 0;
-    } else {
-      if (a[key] < b[key]) {
-        return sortDirection === "ascending" ? -1 : 1;
-      }
-
-      if (a[key] > b[key]) {
-        return sortDirection === "ascending" ? 1 : -1;
-      }
-
-      return 0;
+    if (aString < bString) {
+      return sortDirection === "ascending" ? -1 : 1;
     }
+
+    if (aString > bString) {
+      return sortDirection === "ascending" ? 1 : -1;
+    }
+
+    return 0;
   }
 
   useEffect(() => {
