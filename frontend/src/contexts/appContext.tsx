@@ -4,7 +4,6 @@ import {
   useCallback,
   createContext,
   PropsWithChildren,
-  useMemo,
 } from "react";
 import AxiosInstance from "../helpers/api";
 import { useSearchParams, useNavigate, useLocation } from "react-router-dom";
@@ -56,8 +55,6 @@ const ContextProvider = ({ children }: PropsWithChildren) => {
   );
 
   const [areBooksLoading, setAreBooksLoading] = useState(false);
-  const [changedQuery, setChangedQuery] = useState(false);
-  const [clickedSubmit, setClickedSubmit] = useState(false);
   const [favoritesList, setFavoritesList] = useState<number[]>(
     JSON.parse(sessionStorage.getItem("somos-books-favorites-array") || "[]")
   );
@@ -96,6 +93,7 @@ const ContextProvider = ({ children }: PropsWithChildren) => {
       setSearchParams("");
       setFilteredBooks(books);
     }
+    // eslint-disable-next-line
   }, [query]);
 
   useEffect(() => {
@@ -189,7 +187,6 @@ const ContextProvider = ({ children }: PropsWithChildren) => {
       "somos-books-searched",
       JSON.stringify(searchedBooks)
     );
-    setClickedSubmit(true); // added to clear exhaustive-deps warning on useEffect above
   };
 
   useEffect(() => {
@@ -246,7 +243,6 @@ const ContextProvider = ({ children }: PropsWithChildren) => {
         toggleFavoriteById,
         toggleTheme,
         setTheme,
-        setChangedQuery,
         setIsAuthenticated,
         setIsLoading,
         setFavoritesList,

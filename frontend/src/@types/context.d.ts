@@ -32,7 +32,6 @@ export type AppContextType = {
   toggleFavoriteById: (number) => void;
   toggleTheme: () => void;
   setTheme: (string) => void;
-  setChangedQuery: (boolean) => void;
   setIsAuthenticated: (boolean) => void;
   setIsLoading: (boolean) => void;
   setFavoritesList: (number) => void;

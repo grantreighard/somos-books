@@ -20,7 +20,6 @@ const BookList = () => {
     areBooksLoading,
     setQuery,
     submitSearch,
-    setChangedQuery,
   } = useContext(AppContext) as AppContextType;
 
   const [sortStr, setSortStr] = useState<string>("default");
@@ -83,7 +82,6 @@ const BookList = () => {
             value={query}
             onChange={(e) => {
               setQuery(e.target.value);
-              setChangedQuery(true);
             }}
             onKeyDown={onKeyDown}
             className="border-[1px] rounded-md border-black dark:border-white p-2 mt-2 dark:text-white dark:bg-black w-[300px] mr-2"
@@ -99,7 +97,6 @@ const BookList = () => {
             className="border-[1px] rounded-md border-black dark:border-white p-2 mt-2 mr-2"
             onClick={() => {
               setQuery("");
-              setChangedQuery(true);
             }}
           >
             Clear
