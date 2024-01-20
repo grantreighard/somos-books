@@ -2,24 +2,49 @@ const booksJson = require("../data/books.json");
 
 module.exports = (app, db, baseUrl) => {
   app.get(baseUrl, (req, res) => {
-    res.status(200).send(booksJson);
+    db.collection("books")
+      .find({})
+      .toArray()
+      .then((response) => {
+        res.status(200).send(response);
+      })
+      .catch((err) => {
+        res.status(404).send({ error: err });
+      });
   });
 
   app.get(`${baseUrl}/search/:query`, (req, res) => {
     const { query } = req.params;
     const decodedQuery = query.replace("+", "");
 
-    const filteredBooks = booksJson.filter((book) => {
-      return (
-        book.title.toLowerCase().includes(decodedQuery.toLowerCase()) ||
-        book.authors
-          .join(" ")
-          .toLowerCase()
-          .includes(decodedQuery.toLowerCase())
-      );
-    });
+    db.collection("books")
+      .find({
+        $or: [
+          { title: { $regex: new RegExp(decodedQuery, "i") } },
+          {
+            authors: { $elemMatch: { $regex: new RegExp(decodedQuery, "i") } },
+          },
+        ],
+      })
+      .toArray()
+      .then((response) => {
+        res.status(200).send(response);
+      })
+      .catch((err) => {
+        res.status(404).send({ error: err });
+      });
+  });
 
-    res.status(200).send(filteredBooks);
+  // used once to insert books into database
+  app.post(`${baseUrl}/set`, (req, res) => {
+    db.collection("books")
+      .insertMany(booksJson)
+      .then(() => {
+        res.status(200).send("inserted books");
+      })
+      .catch((err) => {
+        res.status(500).send({ error: err });
+      });
   });
 
   app.put(`${baseUrl}/set-favorites`, (req, res) => {
