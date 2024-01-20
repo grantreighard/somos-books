@@ -8,7 +8,7 @@ import { toast } from "react-toastify";
 
 const Header = () => {
   const navigate = useNavigate();
-  const { setIsAuthenticated, theme } = useContext(
+  const { setIsAuthenticated, theme, setQuery } = useContext(
     AppContext
   ) as AppContextType;
 
@@ -17,6 +17,11 @@ const Header = () => {
       .then((res) => {
         setIsAuthenticated(false);
         navigate("/login");
+        setQuery("");
+        sessionStorage.removeItem("somos-books-list");
+        sessionStorage.removeItem("somos-books-favorites");
+        sessionStorage.removeItem("somos-books-favorites-array");
+        sessionStorage.removeItem("somos-books-searched");
         toast("Logged out successfully.", { type: "success", theme });
       })
       .catch(() => {
