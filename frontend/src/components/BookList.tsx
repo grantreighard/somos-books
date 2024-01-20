@@ -137,10 +137,18 @@ const BookList = () => {
               <option value="author-z-a">First author decending</option>
             </select>
           ) : null}
-          <p>
-            {favoriteBooks.length} favorite
-            {favoriteBooks.length === 1 ? "" : "s"}
-          </p>
+
+          {!favoriteBooks.length ? (
+            <p>
+              No favorites yet. Click the star icon on the top-right corner of a
+              book in the Search view to favorite one.
+            </p>
+          ) : (
+            <p>
+              {favoriteBooks.length} favorite
+              {favoriteBooks.length === 1 ? "" : "s"}
+            </p>
+          )}
           <BookMap
             books={favoriteBooks.sort((a, b) => compare(a, b, sortKey))}
           />
