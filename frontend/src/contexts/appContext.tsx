@@ -32,11 +32,7 @@ const ContextProvider = ({ children }: PropsWithChildren) => {
 
   const [searchParams, setSearchParams] = useSearchParams();
 
-  const [query, setQuery] = useState(
-    sessionStorage.getItem("somos-books-query" || "") || `${location.search}`
-      ? `${location.search}`.split("q=")[1]?.replace("+", " ")
-      : ""
-  );
+  const [query, setQuery] = useState("");
 
   const [books, setBooks] = useState<IBook[]>(
     JSON.parse(sessionStorage.getItem("somos-books-list") || "[]")
@@ -115,8 +111,12 @@ const ContextProvider = ({ children }: PropsWithChildren) => {
 
     if (sessionQuery) {
       setQuery(sessionQuery);
-      setSearchParams(`q=${sessionQuery}`);
+
+      if (location.pathname === "/search") {
+        setSearchParams(`q=${sessionQuery}`);
+      }
     }
+    // eslint-disable-next-line
   }, [location.pathname]);
 
   useEffect(() => {
