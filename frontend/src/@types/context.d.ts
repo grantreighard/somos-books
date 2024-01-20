@@ -23,6 +23,7 @@ export type AppContextType = {
   theme: string;
   isAuthenticated: boolean;
   isLoading: boolean;
+  areBooksLoading: boolean;
   setQuery: (query) => void;
   submitSearch: () => void;
   fetchBooks: () => void;

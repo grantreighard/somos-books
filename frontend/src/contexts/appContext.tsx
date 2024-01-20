@@ -33,6 +33,7 @@ const ContextProvider = ({ children }: PropsWithChildren) => {
   const [filteredBooks, setFilteredBooks] = useState<IBook[]>(books);
   const [searchedBooks, setSearchedBooks] = useState<IBook[]>([]);
   const [favoriteBooks, setFavoriteBooks] = useState<IBook[]>([]);
+  const [areBooksLoading, setAreBooksLoading] = useState(false);
   const [searchParams, setSearchParams] = useSearchParams();
   const [query, setQuery] = useState(
     `${searchParams}` ? `${searchParams}`.split("q=")[1]?.replace("+", " ") : ""
@@ -101,12 +102,15 @@ const ContextProvider = ({ children }: PropsWithChildren) => {
 
   useEffect(() => {
     const debounceTimeout = setTimeout(() => {
+      query && setAreBooksLoading(true);
       query &&
         AxiosInstance.get(`/api/books/search/${encodeURI(query)}`)
           .then((res) => {
             setSearchedBooks(res.data);
+            setAreBooksLoading(false);
           })
           .catch((err) => {
+            setAreBooksLoading(false);
             toast("There was an issue searching books. Please try again.", {
               type: "error",
               theme,
@@ -128,11 +132,14 @@ const ContextProvider = ({ children }: PropsWithChildren) => {
   }, [favoritesList, books]);
 
   const fetchBooks = useCallback(() => {
+    setAreBooksLoading(true);
     AxiosInstance.get("/api/books")
       .then((res) => {
         setBooks(res.data);
+        setAreBooksLoading(false);
       })
       .catch((err) => {
+        setAreBooksLoading(false);
         toast("There was an issue fetching books. Please try again.", {
           type: "error",
           theme,
@@ -198,6 +205,7 @@ const ContextProvider = ({ children }: PropsWithChildren) => {
         theme,
         isAuthenticated,
         isLoading,
+        areBooksLoading,
         fetchBooks,
         setFilteredBooks,
         setSearchedBooks,

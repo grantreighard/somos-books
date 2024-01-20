@@ -4,6 +4,7 @@ import { AppContext } from "../contexts/appContext";
 import { AppContextType } from "../@types/context";
 import { IIndexable } from "../@types/bookList";
 import BookMap from "./BookMap";
+import LoadingSpinner from "../assets/loading.svg";
 
 const BookList = () => {
   const location = useLocation();
@@ -16,6 +17,7 @@ const BookList = () => {
     filteredBooks,
     favoriteBooks,
     searchParams,
+    areBooksLoading,
     setQuery,
     submitSearch,
     setChangedQuery,
@@ -68,7 +70,12 @@ const BookList = () => {
 
   return (
     <div className="min-h-screen h-[100%] dark:text-white dark:bg-black p-4">
-      {isSearch && (
+      {areBooksLoading && (
+        <div className="w-[100%] h-[500px] flex justify-center items-center">
+          <img src={LoadingSpinner} alt="loading indicator" width={120} />
+        </div>
+      )}
+      {!areBooksLoading && isSearch && (
         <>
           <p>Search through our library of {books.length} books!</p>
           <input
@@ -116,7 +123,7 @@ const BookList = () => {
         </>
       )}
 
-      {isFavorites && (
+      {!areBooksLoading && isFavorites && (
         <>
           <select
             className="text-black bg-white dark:text-white dark:bg-black border-[1px] rounded-md border-black dark:border-white p-2 mt-2"
