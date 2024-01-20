@@ -23,6 +23,7 @@ const BookMap: React.FC<IBookMapProps> = ({ books }) => {
               }
               width={190}
               alt={book.title}
+              className="border-black dark:border-white border-[1px]"
             />
             <p className="overflow-hidden truncate w-40" title={book.title}>
               {book.title}
