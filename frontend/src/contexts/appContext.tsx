@@ -60,7 +60,6 @@ const ContextProvider = ({ children }: PropsWithChildren) => {
           setIsLoading(false);
         })
         .catch((err) => {
-          console.error(err);
           navigate("/login");
           setIsLoading(false);
         });
