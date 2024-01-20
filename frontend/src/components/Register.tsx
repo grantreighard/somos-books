@@ -22,6 +22,7 @@ const Register = () => {
   const [emailFieldError, setEmailFieldError] = useState("")
   const [password, setPassword] = useState("")
   const [passwordError, setPasswordError] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
 
   useEffect(() => {
     if (password) {
@@ -91,22 +92,26 @@ const Register = () => {
             className="border-[1px] rounded-md border-black dark:border-white p-2 mt-2 dark:text-white dark:bg-black w-[300px] mr-2"
           />
           { emailFieldError && <div className="text-red-500">{emailFieldError}</div> }
-          <input
-            placeholder="Password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            className="border-[1px] rounded-md border-black dark:border-white p-2 mt-2 dark:text-white dark:bg-black w-[300px] mr-2"
-            type="password"
-          />
+          <div className="relative">
+            <input
+              placeholder="Password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              className="border-[1px] rounded-md border-black dark:border-white p-2 mt-2 dark:text-white dark:bg-black w-[300px] mr-2"
+              type={showPassword ? "text" : "password"}
+            />
+            <button onClick={() => setShowPassword(!showPassword)} className="absolute right-[30px] top-[15px]">{showPassword ? "🔓" : "🔒"}</button>
+          </div>
           { passwordError && <div className="text-red-500">{passwordError}</div>}
           <button
             type="submit"
-            className="border-[1px] border-black dark:border-white p-2 rounded-md mt-2"
+            className="border-[1px] border-black dark:border-white p-2 rounded-md mt-2 bg-green-100 dark:bg-green-800"
+            disabled={!!passwordError || !!emailFieldError}
           >
             Register
           </button>
         </form>
-        <Link to="/login">Log in instead</Link>
+        <Link to="/login" className="text-cyan-500 mt-[10px]">Log in instead</Link>
       </div>
     </div>
   );

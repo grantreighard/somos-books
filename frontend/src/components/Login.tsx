@@ -12,6 +12,7 @@ const Login = () => {
   const { theme, setIsAuthenticated, setIsLoading, setFavoritesList, setEmail } = useContext(AppContext) as AppContextType;
   const [emailField, setEmailField] = useState("")
   const [password, setPassword] = useState("")
+  const [showPassword, setShowPassword] = useState(false);
 
   const submitLogin = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -47,21 +48,24 @@ const Login = () => {
             onChange={(e) => setEmailField(e.target.value)}
             className="border-[1px] rounded-md border-black dark:border-white p-2 mt-2 dark:text-white dark:bg-black w-[300px] mr-2"
           />
-          <input
-            placeholder="Password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            className="border-[1px] rounded-md border-black dark:border-white p-2 mt-2 dark:text-white dark:bg-black w-[300px] mr-2"
-            type="password"
-          />
+          <div className="relative">
+            <input
+              placeholder="Password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              className="border-[1px] rounded-md border-black dark:border-white p-2 mt-2 dark:text-white dark:bg-black w-[300px] mr-2"
+              type={showPassword ? "text" : "password"}
+            />
+            <button onClick={() => setShowPassword(!showPassword)} className="absolute right-[30px] top-[15px]">{showPassword ? "🔓" : "🔒"}</button>
+          </div>
           <button
             type="submit"
-            className="border-[1px] border-black dark:border-white p-2 rounded-md mt-2"
+            className="border-[1px] border-black dark:border-white p-2 rounded-md mt-2 bg-green-100 dark:bg-green-800"
           >
             Log In
           </button>
         </form>
-        <Link to="/register">Register instead</Link>
+        <Link to="/register" className="text-cyan-500 mt-[10px]">Register instead</Link>
       </div>
     </div>
   );
