@@ -61,6 +61,7 @@ const ContextProvider = ({ children }: PropsWithChildren) => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [email, setEmail] = useState("");
+  const [submittedSearch, setSubmittedSearch] = useState(false);
 
   useEffect(() => {
     localStorage.setItem("somos-books-theme", theme);
@@ -89,12 +90,14 @@ const ContextProvider = ({ children }: PropsWithChildren) => {
   };
 
   useEffect(() => {
-    if (!query) {
+    if (!query && submittedSearch) {
       setSearchParams("");
       setFilteredBooks(books);
     }
+
+    setSubmittedSearch(false);
     // eslint-disable-next-line
-  }, [query]);
+  }, [query, submittedSearch]);
 
   useEffect(() => {
     const debounceTimeout = setTimeout(() => {
@@ -174,6 +177,8 @@ const ContextProvider = ({ children }: PropsWithChildren) => {
   }, []);
 
   const submitSearch = () => {
+    setSubmittedSearch(true);
+
     if (query) {
       const params = encodeURI(`q=${query}`);
       setSearchParams(params);
@@ -247,6 +252,7 @@ const ContextProvider = ({ children }: PropsWithChildren) => {
         setIsLoading,
         setFavoritesList,
         setEmail,
+        setSubmittedSearch,
       }}
     >
       {children}

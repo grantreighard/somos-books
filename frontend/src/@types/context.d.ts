@@ -36,4 +36,5 @@ export type AppContextType = {
   setIsLoading: (boolean) => void;
   setFavoritesList: (number) => void;
   setEmail: (string) => void;
+  setSubmittedSearch: (boolean) => void;
 };

@@ -20,6 +20,7 @@ const BookList = () => {
     areBooksLoading,
     setQuery,
     submitSearch,
+    setSubmittedSearch,
   } = useContext(AppContext) as AppContextType;
 
   const [sortStr, setSortStr] = useState<string>("default");
@@ -97,6 +98,7 @@ const BookList = () => {
             className="border-[1px] rounded-md border-black dark:border-white p-2 mt-2 mr-2"
             onClick={() => {
               setQuery("");
+              setSubmittedSearch(true);
             }}
           >
             Clear
