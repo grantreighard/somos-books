@@ -22,6 +22,7 @@ const Header = () => {
         sessionStorage.removeItem("somos-books-favorites");
         sessionStorage.removeItem("somos-books-favorites-array");
         sessionStorage.removeItem("somos-books-searched");
+        sessionStorage.removeItem("somos-books-query");
         toast("Logged out successfully.", { type: "success", theme });
       })
       .catch(() => {

@@ -33,7 +33,7 @@ const ContextProvider = ({ children }: PropsWithChildren) => {
   const [searchParams, setSearchParams] = useSearchParams();
 
   const [query, setQuery] = useState(
-    `${location.search}`
+    sessionStorage.getItem("somos-books-query" || "") || `${location.search}`
       ? `${location.search}`.split("q=")[1]?.replace("+", " ")
       : ""
   );
@@ -62,6 +62,7 @@ const ContextProvider = ({ children }: PropsWithChildren) => {
   const [isLoading, setIsLoading] = useState(false);
   const [email, setEmail] = useState("");
   const [submittedSearch, setSubmittedSearch] = useState(false);
+  const [didRefresh, setDidRefresh] = useState(false);
 
   useEffect(() => {
     localStorage.setItem("somos-books-theme", theme);
@@ -90,14 +91,37 @@ const ContextProvider = ({ children }: PropsWithChildren) => {
   };
 
   useEffect(() => {
+    if (query) {
+      sessionStorage.setItem("somos-books-query", query);
+    }
+
     if (!query && submittedSearch) {
       setSearchParams("");
       setFilteredBooks(books);
+      sessionStorage.removeItem("somos-books-query");
+    }
+
+    if (query && (submittedSearch || didRefresh)) {
+      setFilteredBooks(searchedBooks);
+      setDidRefresh(false);
     }
 
     setSubmittedSearch(false);
     // eslint-disable-next-line
-  }, [query, submittedSearch]);
+  }, [query, submittedSearch, didRefresh]);
+
+  useEffect(() => {
+    const sessionQuery = sessionStorage.getItem("somos-books-query");
+
+    if (sessionQuery) {
+      setQuery(sessionQuery);
+      setSearchParams(`q=${sessionQuery}`);
+    }
+  }, [location.pathname]);
+
+  useEffect(() => {
+    setDidRefresh(true);
+  }, []);
 
   useEffect(() => {
     const debounceTimeout = setTimeout(() => {
