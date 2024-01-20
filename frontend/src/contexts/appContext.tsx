@@ -60,11 +60,13 @@ const ContextProvider = ({ children }: PropsWithChildren) => {
           setIsLoading(false);
         })
         .catch((err) => {
+          console.error(err);
           navigate("/login");
-          setIsLoading(true);
+          setIsLoading(false);
         });
     }
-  }, [navigate, location.pathname]);
+    // eslint-disable-next-line
+  }, []);
 
   const toggleTheme = () => {
     setTheme(theme === "light" ? "dark" : "light");
