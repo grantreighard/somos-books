@@ -1,7 +1,8 @@
-import { useContext } from "react";
+import { useContext, useState, useEffect, useMemo } from "react";
 import { useLocation } from "react-router-dom";
 import { AppContext } from "../contexts/appContext";
 import { AppContextType } from "../@types/context";
+import { IIndexable } from "../@types/bookList";
 import BookMap from "./BookMap";
 
 const BookList = () => {
@@ -19,6 +20,54 @@ const BookList = () => {
     submitSearch,
     setChangedQuery,
   } = useContext(AppContext) as AppContextType;
+
+  const [sortStr, setSortStr] = useState<string>("default");
+  const [sortKey, setSortKey] = useState<string>("_id");
+  const [sortDirection, setSortDirection] = useState<string>("ascending");
+
+  const sortKeyMap: { [key: string]: string } = useMemo(() => {
+    return {
+      default: "_id",
+      "title-a-z": "title",
+      "title-z-a": "title",
+      "author-a-z": "authors",
+      "author-z-a": "authors",
+    };
+  }, []);
+
+  function compare(a: IIndexable, b: IIndexable, key: string) {
+    if (key === "authors") {
+      if (a[key][0] < b[key][0]) {
+        return sortDirection === "ascending" ? -1 : 1;
+      }
+
+      if (a[key][0] > b[key][0]) {
+        return sortDirection === "ascending" ? 1 : -1;
+      }
+
+      return 0;
+    } else {
+      if (a[key] < b[key]) {
+        return sortDirection === "ascending" ? -1 : 1;
+      }
+
+      if (a[key] > b[key]) {
+        return sortDirection === "ascending" ? 1 : -1;
+      }
+
+      return 0;
+    }
+  }
+
+  useEffect(() => {
+    setSortKey(sortKeyMap[sortStr]);
+
+    if (sortStr === "default" || sortStr.includes("a-z")) {
+      setSortDirection("ascending");
+    } else {
+      setSortDirection("decending");
+    }
+  }, [sortStr, sortKeyMap]);
 
   const onKeyDown = (e: React.KeyboardEvent<HTMLDivElement>) => {
     if (e.key === "Enter") {
@@ -49,7 +98,7 @@ const BookList = () => {
             Search
           </button>
           <button
-            className="border-[1px] rounded-md border-black dark:border-white p-2 mt-2"
+            className="border-[1px] rounded-md border-black dark:border-white p-2 mt-2 mr-2"
             onClick={() => {
               setQuery("");
               setChangedQuery(true);
@@ -57,17 +106,41 @@ const BookList = () => {
           >
             Clear
           </button>
+          <select
+            className="text-black bg-white dark:text-white dark:bg-black border-[1px] rounded-md border-black dark:border-white p-2 mt-2"
+            onChange={(e) => setSortStr(e.target.value)}
+          >
+            <option value="default">Default sorting</option>
+            <option value="title-a-z">Book title ascending</option>
+            <option value="title-z-a">Book title decending</option>
+            <option value="author-a-z">First author ascending</option>
+            <option value="author-z-a">First author decending</option>
+          </select>
           {filteredBooks.length !== books.length && (
             <p>{filteredBooks.length} results found</p>
           )}
-          <BookMap books={filteredBooks} />
+          <BookMap
+            books={filteredBooks.sort((a, b) => compare(a, b, sortKey))}
+          />
         </>
       )}
 
       {isFavorites && (
         <>
           <p>{favoriteBooks.length} favorites</p>
-          <BookMap books={favoriteBooks} />
+          <select
+            className="text-black bg-white dark:text-white dark:bg-black border-[1px] rounded-md border-black dark:border-white p-2 mt-2"
+            onChange={(e) => setSortStr(e.target.value)}
+          >
+            <option value="default">Default sorting</option>
+            <option value="title-a-z">Book title ascending</option>
+            <option value="title-z-a">Book title decending</option>
+            <option value="author-a-z">First author ascending</option>
+            <option value="author-z-a">First author decending</option>
+          </select>
+          <BookMap
+            books={favoriteBooks.sort((a, b) => compare(a, b, sortKey))}
+          />
         </>
       )}
     </div>
