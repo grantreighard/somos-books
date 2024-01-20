@@ -102,20 +102,18 @@ const ContextProvider = ({ children }: PropsWithChildren) => {
 
   useEffect(() => {
     const debounceTimeout = setTimeout(() => {
-      query && setAreBooksLoading(true);
-      query &&
+      if (query) {
         AxiosInstance.get(`/api/books/search/${encodeURI(query)}`)
           .then((res) => {
             setSearchedBooks(res.data);
-            setAreBooksLoading(false);
           })
           .catch((err) => {
-            setAreBooksLoading(false);
             toast("There was an issue searching books. Please try again.", {
               type: "error",
               theme,
             });
           });
+      }
 
       if (!query) {
         setSearchedBooks(books);
