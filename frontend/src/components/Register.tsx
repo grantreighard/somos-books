@@ -4,7 +4,7 @@ import { AppContext } from "../contexts/appContext";
 import { AppContextType } from "../@types/context";
 import { useNavigate } from "react-router-dom";
 import ThemeSwitcher from "./ThemeSwitcher";
-import AxiosInstance from '../helpers/api';
+import AxiosInstance from "../helpers/api";
 import { toast } from "react-toastify";
 
 const Register = () => {
@@ -15,13 +15,19 @@ const Register = () => {
   const LENGTH_REGEX = "^[A-Za-z0-9@$!%*?&#]{12,16}";
   const EMAIL_REGEX =
     // eslint-disable-next-line
-    useMemo(() => /(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*|"(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21\x23-\x5b\x5d-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])*")@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\[(?:(?:(2(5[0-5]|[0-4][0-9])|1[0-9][0-9]|[1-9]?[0-9]))\.){3}(?:(2(5[0-5]|[0-4][0-9])|1[0-9][0-9]|[1-9]?[0-9])|[a-z0-9-]*[a-z0-9]:(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21-\x5a\x53-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])+)\])/, []);
+    useMemo(
+      () =>
+        /(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*|"(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21\x23-\x5b\x5d-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])*")@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\[(?:(?:(2(5[0-5]|[0-4][0-9])|1[0-9][0-9]|[1-9]?[0-9]))\.){3}(?:(2(5[0-5]|[0-4][0-9])|1[0-9][0-9]|[1-9]?[0-9])|[a-z0-9-]*[a-z0-9]:(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21-\x5a\x53-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])+)\])/,
+      []
+    );
 
   const navigate = useNavigate();
-  const { theme, setIsAuthenticated, setIsLoading, setEmail } = useContext(AppContext) as AppContextType;
-  const [emailField, setEmailField] = useState("")
-  const [emailFieldError, setEmailFieldError] = useState("")
-  const [password, setPassword] = useState("")
+  const { theme, setIsAuthenticated, setIsLoading, setEmail } = useContext(
+    AppContext
+  ) as AppContextType;
+  const [emailField, setEmailField] = useState("");
+  const [emailFieldError, setEmailFieldError] = useState("");
+  const [password, setPassword] = useState("");
   const [passwordError, setPasswordError] = useState("");
   const [showPassword, setShowPassword] = useState(false);
 
@@ -57,26 +63,36 @@ const Register = () => {
     }
   }, [emailField, EMAIL_REGEX]);
 
-  const submitRegistration = (e: React.FormEvent<HTMLFormElement>) => {
+  const submitRegistration = (
+    e: React.FormEvent<HTMLFormElement> | React.KeyboardEvent<HTMLDivElement>
+  ) => {
     e.preventDefault();
 
     if (emailField && password && !emailFieldError && !passwordError) {
       setIsLoading(true);
-      AxiosInstance
-        .post("/api/users/register", { email: emailField, password })
-        .then(res => {
+      AxiosInstance.post("/api/users/register", { email: emailField, password })
+        .then((res) => {
           setIsAuthenticated(true);
           setIsLoading(false);
-          setEmail(res.data.email)
-          navigate('/search')
-          toast("Registered successfully.", { type: "success", theme })
+          setEmail(res.data.email);
+          navigate("/search");
+          toast("Registered successfully.", { type: "success", theme });
         })
-        .catch(err => {
+        .catch((err) => {
           setIsLoading(false);
-          toast("There was a problem registering. Please try again.", { type: "error", theme })
-        })
+          toast("There was a problem registering. Please try again.", {
+            type: "error",
+            theme,
+          });
+        });
     }
-  }
+  };
+
+  const onKeyDown = (e: React.KeyboardEvent<HTMLDivElement>) => {
+    if (e.key === "Enter") {
+      submitRegistration(e);
+    }
+  };
 
   return (
     <div className={`${theme}`}>
@@ -91,8 +107,11 @@ const Register = () => {
             value={emailField}
             onChange={(e) => setEmailField(e.target.value)}
             className="border-[1px] rounded-md border-black dark:border-white p-2 mt-2 dark:text-white dark:bg-black w-[300px] mr-2"
+            onKeyDown={onKeyDown}
           />
-          { emailFieldError && <div className="text-red-500">{emailFieldError}</div> }
+          {emailFieldError && (
+            <div className="text-red-500">{emailFieldError}</div>
+          )}
           <div className="relative">
             <input
               placeholder="Password"
@@ -100,10 +119,16 @@ const Register = () => {
               onChange={(e) => setPassword(e.target.value)}
               className="border-[1px] rounded-md border-black dark:border-white p-2 mt-2 dark:text-white dark:bg-black w-[300px] mr-2"
               type={showPassword ? "text" : "password"}
+              onKeyDown={onKeyDown}
             />
-            <button onClick={() => setShowPassword(!showPassword)} className="absolute right-[30px] top-[15px]">{showPassword ? "🔓" : "🔒"}</button>
+            <button
+              onClick={() => setShowPassword(!showPassword)}
+              className="absolute right-[30px] top-[15px]"
+            >
+              {showPassword ? "🔓" : "🔒"}
+            </button>
           </div>
-          { passwordError && <div className="text-red-500">{passwordError}</div>}
+          {passwordError && <div className="text-red-500">{passwordError}</div>}
           <button
             type="submit"
             className="border-[1px] border-black dark:border-white p-2 rounded-md mt-2 bg-green-100 dark:bg-green-800"
@@ -112,7 +137,9 @@ const Register = () => {
             Register
           </button>
         </form>
-        <Link to="/login" className="text-cyan-500 mt-[10px]">Log in instead</Link>
+        <Link to="/login" className="text-cyan-500 mt-[10px]">
+          Log in instead
+        </Link>
       </div>
     </div>
   );
