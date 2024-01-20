@@ -27,16 +27,20 @@ const BookMap: React.FC<IBookMapProps> = ({ books }) => {
             />
             <p title={book.title}>
               <span className="text-cyan-600 dark:text-cyan-300">
-                {book.title}</span>
+                {book.title}
+              </span>
               <span>
-                {" "}by{" "}
-                {(book.authors
+                {" "}
+                by{" "}
+                {book.authors
                   .filter((a) => !!a)
                   .slice(0, 2)
-                  .join(" and ")) + ((book.authors.length > 2) ? ", et al." : "") || "unknown author"}
+                  .join(" and ") +
+                  (book.authors.length > 2 ? ", et al." : "") ||
+                  "unknown author"}
               </span>
             </p>
-            
+
             <button
               onClick={() => toggleFavoriteById(book._id)}
               title={

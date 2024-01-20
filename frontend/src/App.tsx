@@ -7,7 +7,9 @@ import ThemeSwitcher from "./components/ThemeSwitcher";
 
 function App() {
   const navigate = useNavigate();
-  const { isAuthenticated, isLoading } = useContext(AppContext) as AppContextType;
+  const { isAuthenticated, isLoading } = useContext(
+    AppContext
+  ) as AppContextType;
 
   useEffect(() => {
     if (!isLoading && !isAuthenticated) {
@@ -17,7 +19,11 @@ function App() {
     }
   });
 
-  return <div><ThemeSwitcher /></div>;
+  return (
+    <div>
+      <ThemeSwitcher />
+    </div>
+  );
 }
 
 export default App;

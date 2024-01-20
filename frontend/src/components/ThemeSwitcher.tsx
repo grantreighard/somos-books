@@ -6,7 +6,9 @@ import { useLocation, useNavigate } from "react-router-dom";
 const ThemeSwitcher = () => {
   const navigate = useNavigate();
   const location = useLocation();
-  const { theme, setTheme, isAuthenticated, isLoading } = useContext(AppContext) as AppContextType;
+  const { theme, setTheme, isAuthenticated, isLoading } = useContext(
+    AppContext
+  ) as AppContextType;
 
   useEffect(() => {
     if (
