@@ -145,7 +145,8 @@ const ContextProvider = ({ children }: PropsWithChildren) => {
           theme,
         });
       });
-  }, [theme]);
+    // eslint-disable-next-line
+  }, []);
 
   const submitSearch = () => {
     if (query) {
