@@ -21,9 +21,13 @@ const Register = () => {
   );
 
   const navigate = useNavigate();
-  const { theme, setIsAuthenticated, setIsLoading, setEmail } = useContext(
-    AppContext
-  ) as AppContextType;
+  const {
+    theme,
+    setIsAuthenticated,
+    setIsLoading,
+    setEmail,
+    setFavoritesList,
+  } = useContext(AppContext) as AppContextType;
   const [emailField, setEmailField] = useState("");
   const [emailFieldError, setEmailFieldError] = useState("");
   const [password, setPassword] = useState("");
@@ -74,6 +78,7 @@ const Register = () => {
           setIsAuthenticated(true);
           setIsLoading(false);
           setEmail(res.data.email);
+          setFavoritesList([]);
           navigate("/search");
           toast("Registered successfully.", { type: "success", theme });
         })

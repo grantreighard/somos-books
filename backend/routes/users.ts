@@ -134,6 +134,7 @@ module.exports = (app, db, baseUrl) => {
         .insertOne({
           password,
           email,
+          favoritesList: [],
           createdAt: Date.now(),
           updatedAt: Date.now(),
         })
