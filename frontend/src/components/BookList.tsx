@@ -36,14 +36,14 @@ const BookList = () => {
   }, []);
 
   function compare(a: IIndexable, b: IIndexable, key: string) {
-    const aString = Array.isArray(a[key]) ? a[key][0] : a[key];
-    const bString = Array.isArray(b[key]) ? b[key][0] : b[key];
+    let aVar = Array.isArray(a[key]) ? `${a[key][0]}` : a[key];
+    let bVar = Array.isArray(b[key]) ? `${b[key][0]}` : b[key];
+    aVar = Number.isInteger(aVar) ? aVar : aVar.toLowerCase();
+    bVar = Number.isInteger(bVar) ? bVar : bVar.toLowerCase();
 
-    if (aString < bString) {
+    if (aVar < bVar) {
       return sortDirection === "ascending" ? -1 : 1;
-    }
-
-    if (aString > bString) {
+    } else if (aVar > bVar) {
       return sortDirection === "ascending" ? 1 : -1;
     }
 
