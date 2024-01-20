@@ -40,7 +40,7 @@ const BookMap: React.FC<IBookMapProps> = ({ books }) => {
                 favoritesList?.includes(book?._id) ? "Unfavorite" : "Favorite"
               }
               className={
-                "absolute top-[0px] right-[10px] bg-gray-300 rounded-full w-[30px] h-[30px]" +
+                "absolute top-[0px] right-[10px] bg-indigo-400 rounded-bl-full w-[30px] h-[30px] pl-2 pb-2" +
                 (!favoritesList?.includes(book?._id) ? " filter grayscale" : "")
               }
             >
