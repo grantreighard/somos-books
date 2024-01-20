@@ -118,7 +118,6 @@ const BookList = () => {
 
       {isFavorites && (
         <>
-          <p>{favoriteBooks.length} favorites</p>
           <select
             className="text-black bg-white dark:text-white dark:bg-black border-[1px] rounded-md border-black dark:border-white p-2 mt-2"
             onChange={(e) => setSortStr(e.target.value)}
@@ -129,6 +128,7 @@ const BookList = () => {
             <option value="author-a-z">First author ascending</option>
             <option value="author-z-a">First author decending</option>
           </select>
+          <p>{favoriteBooks.length} favorites</p>
           <BookMap
             books={favoriteBooks.sort((a, b) => compare(a, b, sortKey))}
           />

@@ -9,7 +9,7 @@ const BookMap: React.FC<IBookMapProps> = ({ books }) => {
   ) as AppContextType;
 
   return (
-    <div className="flex flex-wrap">
+    <div className="flex flex-wrap justify-center">
       {books.map((book: IBook) => {
         return (
           <div
@@ -25,16 +25,18 @@ const BookMap: React.FC<IBookMapProps> = ({ books }) => {
               alt={book.title}
               className="border-black dark:border-white border-[1px]"
             />
-            <p className="overflow-hidden truncate w-40" title={book.title}>
-              {book.title}
+            <p title={book.title}>
+              <span className="text-cyan-600 dark:text-cyan-300">
+                {book.title}</span>
+              <span>
+                {" "}by{" "}
+                {(book.authors
+                  .filter((a) => !!a)
+                  .slice(0, 2)
+                  .join(" and ")) + ((book.authors.length > 2) ? ", et al." : "") || "unknown author"}
+              </span>
             </p>
-            <p>
-              By{" "}
-              {book.authors
-                .filter((a) => !!a)
-                .slice(0, 3)
-                .join(", ") || "unknown author"}
-            </p>
+            
             <button
               onClick={() => toggleFavoriteById(book._id)}
               title={
