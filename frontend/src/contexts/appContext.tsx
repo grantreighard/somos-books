@@ -1,5 +1,11 @@
-import { useEffect, useState, useCallback, createContext, PropsWithChildren } from "react";
-import AxiosInstance from '../helpers/api';
+import {
+  useEffect,
+  useState,
+  useCallback,
+  createContext,
+  PropsWithChildren,
+} from "react";
+import AxiosInstance from "../helpers/api";
 import { useSearchParams, useNavigate, useLocation } from "react-router-dom";
 import { AppContextType, IBook } from "../@types/context";
 import { toast } from "react-toastify";
@@ -7,7 +13,7 @@ import { toast } from "react-toastify";
 export const AppContext = createContext<AppContextType | null>(null);
 
 const ContextProvider = ({ children }: PropsWithChildren) => {
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   const location = useLocation();
 
   const localTheme = localStorage.getItem("somos-books-theme");
@@ -36,28 +42,28 @@ const ContextProvider = ({ children }: PropsWithChildren) => {
   const [favoritesList, setFavoritesList] = useState<number[]>([]);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-  const [email, setEmail] = useState("")
+  const [email, setEmail] = useState("");
 
   useEffect(() => {
     localStorage.setItem("somos-books-theme", theme);
   }, [theme]);
 
   useEffect(() => {
-    if (['/search', 'favorites'].includes(location.pathname)) {
-      setIsLoading(true)
+    if (["/search", "/favorites"].includes(location.pathname)) {
+      setIsLoading(true);
       AxiosInstance.get("/api/users/jwt") // allow authentication upon refresh using cookie
-        .then(res => {
-          setIsAuthenticated(true)
+        .then((res) => {
+          setIsAuthenticated(true);
           setFavoritesList(res.data.favoritesList);
           setEmail(res.data.email);
-          setIsLoading(false)
+          setIsLoading(false);
         })
-        .catch(err => {
-          !['/login', '/register'].includes(location.pathname) && navigate("/login")
-          setIsLoading(true)
-        })
+        .catch((err) => {
+          navigate("/login");
+          setIsLoading(true);
+        });
     }
-  }, [navigate, location.pathname])
+  }, [navigate, location.pathname]);
 
   const toggleTheme = () => {
     setTheme(theme === "light" ? "dark" : "light");
@@ -84,18 +90,27 @@ const ContextProvider = ({ children }: PropsWithChildren) => {
       setFilteredBooks(searchedBooks);
       setClickedSubmit(false);
     }
-  }, [books, searchedBooks, clickedSubmit, query, changedQuery, setSearchParams]);
+  }, [
+    books,
+    searchedBooks,
+    clickedSubmit,
+    query,
+    changedQuery,
+    setSearchParams,
+  ]);
 
   useEffect(() => {
     const debounceTimeout = setTimeout(() => {
       query &&
-        AxiosInstance
-          .get(`/api/books/search/${encodeURI(query)}`)
+        AxiosInstance.get(`/api/books/search/${encodeURI(query)}`)
           .then((res) => {
             setSearchedBooks(res.data);
           })
           .catch((err) => {
-            toast("There was an issue searching books. Please try again.", { type: "error", theme })
+            toast("There was an issue searching books. Please try again.", {
+              type: "error",
+              theme,
+            });
           });
 
       if (!query) {
@@ -107,19 +122,23 @@ const ContextProvider = ({ children }: PropsWithChildren) => {
   }, [query, books, theme]);
 
   useEffect(() => {
-    setFavoriteBooks(books?.filter((book) => favoritesList?.includes(book?._id)));
+    setFavoriteBooks(
+      books?.filter((book) => favoritesList?.includes(book?._id))
+    );
   }, [favoritesList, books]);
 
   const fetchBooks = useCallback(() => {
-      AxiosInstance
-        .get("/api/books")
-        .then((res) => {
-          setBooks(res.data);
-        })
-        .catch((err) => {
-          toast("There was an issue fetching books. Please try again.", { type: "error", theme })
+    AxiosInstance.get("/api/books")
+      .then((res) => {
+        setBooks(res.data);
+      })
+      .catch((err) => {
+        toast("There was an issue fetching books. Please try again.", {
+          type: "error",
+          theme,
         });
-  }, [theme])
+      });
+  }, [theme]);
 
   const submitSearch = () => {
     if (query) {
@@ -153,11 +172,17 @@ const ContextProvider = ({ children }: PropsWithChildren) => {
 
     setFavoritesList(editedFavorites);
 
-    AxiosInstance.put("/api/books/set-favorites", { favoritesList: editedFavorites, email })
-      .then(res => {})
-      .catch(err => {
-        toast("There was an issue favoriting this book. Please try again.", { type: "error", theme })
-      })
+    AxiosInstance.put("/api/books/set-favorites", {
+      favoritesList: editedFavorites,
+      email,
+    })
+      .then((res) => {})
+      .catch((err) => {
+        toast("There was an issue favoriting this book. Please try again.", {
+          type: "error",
+          theme,
+        });
+      });
   };
 
   return (
@@ -185,7 +210,7 @@ const ContextProvider = ({ children }: PropsWithChildren) => {
         setIsAuthenticated,
         setIsLoading,
         setFavoritesList,
-        setEmail
+        setEmail,
       }}
     >
       {children}
