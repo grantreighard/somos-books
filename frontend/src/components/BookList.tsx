@@ -125,17 +125,22 @@ const BookList = () => {
 
       {!areBooksLoading && isFavorites && (
         <>
-          <select
-            className="text-black bg-white dark:text-white dark:bg-black border-[1px] rounded-md border-black dark:border-white p-2 mt-2"
-            onChange={(e) => setSortStr(e.target.value)}
-          >
-            <option value="default">Default sorting</option>
-            <option value="title-a-z">Book title ascending</option>
-            <option value="title-z-a">Book title decending</option>
-            <option value="author-a-z">First author ascending</option>
-            <option value="author-z-a">First author decending</option>
-          </select>
-          <p>{favoriteBooks.length} favorites</p>
+          {favoriteBooks.length ? (
+            <select
+              className="text-black bg-white dark:text-white dark:bg-black border-[1px] rounded-md border-black dark:border-white p-2 mt-2"
+              onChange={(e) => setSortStr(e.target.value)}
+            >
+              <option value="default">Default sorting</option>
+              <option value="title-a-z">Book title ascending</option>
+              <option value="title-z-a">Book title decending</option>
+              <option value="author-a-z">First author ascending</option>
+              <option value="author-z-a">First author decending</option>
+            </select>
+          ) : null}
+          <p>
+            {favoriteBooks.length} favorite
+            {favoriteBooks.length === 1 ? "" : "s"}
+          </p>
           <BookMap
             books={favoriteBooks.sort((a, b) => compare(a, b, sortKey))}
           />

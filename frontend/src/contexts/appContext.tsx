@@ -4,6 +4,7 @@ import {
   useCallback,
   createContext,
   PropsWithChildren,
+  useMemo,
 } from "react";
 import AxiosInstance from "../helpers/api";
 import { useSearchParams, useNavigate, useLocation } from "react-router-dom";
@@ -29,18 +30,37 @@ const ContextProvider = ({ children }: PropsWithChildren) => {
   const [theme, setTheme] = useState(
     localTheme || (prefersDarkMode ? "dark" : "light") || "dark"
   );
-  const [books, setBooks] = useState<IBook[]>([]);
-  const [filteredBooks, setFilteredBooks] = useState<IBook[]>(books);
-  const [searchedBooks, setSearchedBooks] = useState<IBook[]>([]);
-  const [favoriteBooks, setFavoriteBooks] = useState<IBook[]>([]);
-  const [areBooksLoading, setAreBooksLoading] = useState(false);
+
   const [searchParams, setSearchParams] = useSearchParams();
+
   const [query, setQuery] = useState(
-    `${searchParams}` ? `${searchParams}`.split("q=")[1]?.replace("+", " ") : ""
+    `${location.search}`
+      ? `${location.search}`.split("q=")[1]?.replace("+", " ")
+      : ""
   );
+
+  const [books, setBooks] = useState<IBook[]>(
+    JSON.parse(sessionStorage.getItem("somos-books-list") || "[]")
+  );
+
+  const [searchedBooks, setSearchedBooks] = useState<IBook[]>(
+    JSON.parse(sessionStorage.getItem("somos-books-searched") || "[]")
+  );
+
+  const [filteredBooks, setFilteredBooks] = useState<IBook[]>(
+    query && searchedBooks.length ? searchedBooks : books
+  );
+
+  const [favoriteBooks, setFavoriteBooks] = useState<IBook[]>(
+    JSON.parse(sessionStorage.getItem("somos-books-favorites") || "[]")
+  );
+
+  const [areBooksLoading, setAreBooksLoading] = useState(false);
   const [changedQuery, setChangedQuery] = useState(false);
   const [clickedSubmit, setClickedSubmit] = useState(false);
-  const [favoritesList, setFavoritesList] = useState<number[]>([]);
+  const [favoritesList, setFavoritesList] = useState<number[]>(
+    JSON.parse(sessionStorage.getItem("somos-books-favorites-array") || "[]")
+  );
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [email, setEmail] = useState("");
@@ -72,34 +92,11 @@ const ContextProvider = ({ children }: PropsWithChildren) => {
   };
 
   useEffect(() => {
-    if (!query && !searchedBooks.length) {
-      // reset after query deleted
-      setFilteredBooks(books);
+    if (!query) {
       setSearchParams("");
-    } else if (!query && changedQuery) {
-      // clear button clicked
       setFilteredBooks(books);
-      setSearchParams("");
-    } else if (clickedSubmit && query && !searchedBooks.length) {
-      // submit button clicked, no matching results
-      setFilteredBooks([]);
-      setClickedSubmit(false);
-    } else if (!changedQuery && searchedBooks.length) {
-      // browser refresh
-      setFilteredBooks(searchedBooks);
-    } else if (clickedSubmit) {
-      // submit button clicked
-      setFilteredBooks(searchedBooks);
-      setClickedSubmit(false);
     }
-  }, [
-    books,
-    searchedBooks,
-    clickedSubmit,
-    query,
-    changedQuery,
-    setSearchParams,
-  ]);
+  }, [query]);
 
   useEffect(() => {
     const debounceTimeout = setTimeout(() => {
@@ -125,25 +122,56 @@ const ContextProvider = ({ children }: PropsWithChildren) => {
   }, [query, books, theme]);
 
   useEffect(() => {
-    setFavoriteBooks(
-      books?.filter((book) => favoritesList?.includes(book?._id))
+    const favorites = books?.filter((book) =>
+      favoritesList?.includes(book?._id)
     );
+    setFavoriteBooks(favorites);
+    sessionStorage.setItem(
+      "somos-books-favorites-array",
+      JSON.stringify(favoritesList)
+    );
+    sessionStorage.setItem("somos-books-favorites", JSON.stringify(favorites));
   }, [favoritesList, books]);
 
   const fetchBooks = useCallback(() => {
-    setAreBooksLoading(true);
-    AxiosInstance.get("/api/books")
-      .then((res) => {
-        setBooks(res.data);
-        setAreBooksLoading(false);
-      })
-      .catch((err) => {
-        setAreBooksLoading(false);
-        toast("There was an issue fetching books. Please try again.", {
-          type: "error",
-          theme,
+    const sessionBooks = JSON.parse(
+      sessionStorage.getItem("somos-books-list") || "[]"
+    );
+
+    const favoritesArray = JSON.parse(
+      sessionStorage.getItem("somos-books-favorites-array") || "[]"
+    );
+
+    const favorites = JSON.parse(
+      sessionStorage.getItem("somos-books-favorites") || "[]"
+    );
+
+    const searched = JSON.parse(
+      sessionStorage.getItem("somos-books-searched") || "[]"
+    );
+
+    setBooks(sessionBooks);
+    setFavoriteBooks(favorites);
+    setFavoritesList(favoritesArray);
+    setSearchedBooks(searched);
+
+    if (!sessionBooks.length) {
+      setAreBooksLoading(true);
+      AxiosInstance.get("/api/books")
+        .then((res) => {
+          setBooks(res.data);
+          setFilteredBooks(res.data);
+          setAreBooksLoading(false);
+          sessionStorage.setItem("somos-books-list", JSON.stringify(res.data));
+        })
+        .catch((err) => {
+          setAreBooksLoading(false);
+          toast("There was an issue fetching books. Please try again.", {
+            type: "error",
+            theme,
+          });
         });
-      });
+    }
     // eslint-disable-next-line
   }, []);
 
@@ -157,6 +185,10 @@ const ContextProvider = ({ children }: PropsWithChildren) => {
     }
 
     setFilteredBooks(searchedBooks);
+    sessionStorage.setItem(
+      "somos-books-searched",
+      JSON.stringify(searchedBooks)
+    );
     setClickedSubmit(true); // added to clear exhaustive-deps warning on useEffect above
   };
 
